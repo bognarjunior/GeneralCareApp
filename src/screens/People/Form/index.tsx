@@ -4,19 +4,17 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/navigation';
 import styles from './styles';
-const HomeScreen = () => {
+
+const PersonFormScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
   const {container, label} = styles;
-
   return (
     <View style={container}>
-      <Text style={label}>Home Screen</Text>
-      <Button title="Lista de Pessoas" onPress={() => navigation.navigate('PeopleList')} />
-      <Button title="Cadastrar Pessoa" onPress={() => navigation.navigate('PersonForm')} />
+      <Text style={label}>Cadastro de Pessoa</Text>
+      <Button title="Ir para Lista de Pessoas" onPress={() => navigation.navigate('PeopleList')} />
+      <Button title="Voltar para Home" onPress={() => navigation.navigate('Home')} />
     </View>
   );
 };
 
-export default HomeScreen;
-
+export default PersonFormScreen;
