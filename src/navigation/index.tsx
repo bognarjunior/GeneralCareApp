@@ -7,11 +7,13 @@ import BloodPressureScreen from '@/screens/BloodPressure';
 import GlycemiaScreen from '@/screens/Glycemia';
 import PeopleListScreen from '@/screens/People/List';
 import PersonFormScreen from '@/screens/People/Form';
+import PersonDetailScreen from '@/screens/PersonDetail';
 
 export type RootStackParamList = {
   Home: undefined;
   PeopleList: undefined;
   PersonForm: undefined;
+  PersonDetail: undefined;
   Medications: undefined;
   BloodPressure: undefined;
   Glycemia: undefined;
@@ -32,6 +34,8 @@ const AppNavigator = () => {
         <Stack.Screen name="Glycemia" component={GlycemiaScreen} />
         <Stack.Screen name="PeopleList" component={PeopleListScreen} />
         <Stack.Screen name="PersonForm" component={PersonFormScreen} />
+        <Stack.Screen name="PersonDetail" component={PersonDetailScreen} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

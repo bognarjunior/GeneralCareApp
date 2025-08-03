@@ -11,10 +11,7 @@ const PeopleListScreen = () => {
   return (
     <View style={container}>
       <Text style={label}>Lista de Pessoas</Text>
-
-      <Button title="Medicamentos" onPress={() => navigation.navigate('Medications')} />
-      <Button title="Pressão Arterial" onPress={() => navigation.navigate('BloodPressure')} />
-      <Button title="Glicemia" onPress={() => navigation.navigate('Glycemia')} />
+      <Button title="Ver Detalhes de João" onPress={() => navigation.navigate('PersonDetail')} />
       <Button title="Cadastrar Pessoa" onPress={() => navigation.navigate('PersonForm')} />
       <Button title="Voltar para Home" onPress={() => navigation.navigate('Home')} />
     </View>
