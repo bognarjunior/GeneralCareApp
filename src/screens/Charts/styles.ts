@@ -7,41 +7,27 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: theme.spacing.lg,
     gap: theme.spacing.md,
-  },
-  icon: {
-    marginBottom: theme.spacing.md,
+    padding: theme.spacing.lg,
   },
   title: {
     fontSize: theme.fonts.size.xlarge,
     fontFamily: theme.fonts.family.bold,
     color: theme.colors.text,
-    marginBottom: theme.spacing.sm,
-  },
-  info: {
-    fontSize: theme.fonts.size.large,
-    color: theme.colors.text,
-    marginBottom: theme.spacing.lg,
-  },
-  navGroup: {
-    gap: theme.spacing.sm,
-    width: '100%',
+    marginBottom: theme.spacing.xl,
   },
   navButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: theme.colors.primary,
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.md,
+    padding: theme.spacing.sm,
     borderRadius: 6,
+    gap: theme.spacing.xs,
   },
-  navIcon: {
-    marginRight: theme.spacing.sm,
-  },
-  navButtonText: {
+  buttonText: {
     color: '#FFF',
     fontSize: theme.fonts.size.medium,
+    marginLeft: theme.spacing.xs,
   },
 });
 
