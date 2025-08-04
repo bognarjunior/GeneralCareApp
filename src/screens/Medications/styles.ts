@@ -8,13 +8,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: theme.spacing.md,
-    padding: theme.spacing.md,
+    padding: theme.spacing.lg,
   },
-  label: {
-    color: theme.colors.text,
-    fontSize: theme.fonts.size.large,
+  title: {
+    fontSize: theme.fonts.size.xlarge,
     fontFamily: theme.fonts.family.bold,
-    marginBottom: theme.spacing.lg,
+    color: theme.colors.text,
+    marginBottom: theme.spacing.xl,
+  },
+  navButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.sm,
+    borderRadius: 6,
+    gap: theme.spacing.xs,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: theme.fonts.size.medium,
+    marginLeft: theme.spacing.xs,
   },
 });
 

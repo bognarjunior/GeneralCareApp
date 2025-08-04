@@ -5,15 +5,32 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/navigation';
 import styles from './styles';
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'PeopleList'>;
+
 const PeopleListScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NavigationProp>();
   const { container, label } = styles;
+
+  const personId = '123'; // exemplo fixo, você pode trocar pela lógica real de lista
+
   return (
     <View style={container}>
       <Text style={label}>Lista de Pessoas</Text>
-      <Button title="Ver Detalhes de João" onPress={() => navigation.navigate('PersonDetail')} />
-      <Button title="Cadastrar Pessoa" onPress={() => navigation.navigate('PersonForm')} />
-      <Button title="Voltar para Home" onPress={() => navigation.navigate('Home')} />
+
+      <Button
+        title="Ver Detalhes de João"
+        onPress={() => navigation.navigate('PersonDetailStack', { personId })}
+      />
+
+      <Button
+        title="Cadastrar Pessoa"
+        onPress={() => navigation.navigate('PeopleRegister')}
+      />
+
+      <Button
+        title="Voltar para Home"
+        onPress={() => navigation.navigate('Home')}
+      />
     </View>
   );
 };
