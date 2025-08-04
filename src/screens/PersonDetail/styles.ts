@@ -14,34 +14,20 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
   },
   title: {
-    fontSize: theme.fonts.size.xlarge,
+    fontSize: theme.fonts.size.xl,
     fontFamily: theme.fonts.family.bold,
     color: theme.colors.text,
     marginBottom: theme.spacing.sm,
   },
   info: {
-    fontSize: theme.fonts.size.large,
+    fontSize: theme.fonts.size.lg,
+    fontFamily: theme.fonts.family.medium,
     color: theme.colors.text,
     marginBottom: theme.spacing.lg,
   },
   navGroup: {
     gap: theme.spacing.sm,
     width: '100%',
-  },
-  navButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.colors.primary,
-    paddingVertical: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.md,
-    borderRadius: 6,
-  },
-  navIcon: {
-    marginRight: theme.spacing.sm,
-  },
-  navButtonText: {
-    color: '#FFF',
-    fontSize: theme.fonts.size.medium,
   },
 });
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useNavigation, CompositeNavigationProp } from '@react-navigation/native';
+import { View, Text } from 'react-native';
+import { useNavigation, CompositeNavigationProp, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList, PersonStackParamList } from '@/navigation';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import type { RouteProp } from '@react-navigation/native';
 import styles from './styles';
+import IconButton from '@/components/IconButton';
 
 type NavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<PersonStackParamList, 'PersonDetail'>,
@@ -19,64 +19,52 @@ const PersonDetailScreen = () => {
   const route = useRoute<RouteProps>();
   const { personId } = route.params;
 
-  const {
-    container,
-    icon,
-    title,
-    info,
-    navButton,
-    navButtonText,
-    navIcon,
-    navGroup,
-  } = styles;
-
   return (
-    <View style={container}>
-      <Icon name="person" size={64} color="#333" style={icon} />
+    <View style={styles.container}>
+      <Text style={styles.title}>Detalhes da Pessoa</Text>
+      <Text style={styles.info}>ID: {personId}</Text>
 
-      <Text style={title}>Detalhes da Pessoa</Text>
-      <Text style={info}>ID: {personId}</Text>
-
-      <View style={navGroup}>
-        <TouchableOpacity onPress={() => navigation.navigate('Medications', { personId })} style={navButton}>
-          <Icon name="medication" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Medicamentos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('BloodPressure', { personId })} style={navButton}>
-          <Icon name="monitor-heart" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Pressão Arterial</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Glycemia', { personId })} style={navButton}>
-          <Icon name="bloodtype" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Glicemia</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Measurements', { personId })} style={navButton}>
-          <Icon name="straighten" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Medidas (Peso / Altura)</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Appointments', { personId })} style={navButton}>
-          <Icon name="event-note" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Consultas Médicas</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Charts', { personId })} style={navButton}>
-          <Icon name="insert-chart" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Gráficos</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('PeopleList')} style={navButton}>
-          <Icon name="arrow-back" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Voltar para Lista</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={navButton}>
-          <Icon name="home" size={20} style={navIcon} color="#FFF" />
-          <Text style={navButtonText}>Voltar para Início</Text>
-        </TouchableOpacity>
+      <View style={styles.navGroup}>
+        <IconButton
+          iconName="medication"
+          label="Medicamentos"
+          onPress={() => navigation.navigate('Medications', { personId })}
+        />
+        <IconButton
+          iconName="monitor-heart"
+          label="Pressão Arterial"
+          onPress={() => navigation.navigate('BloodPressure', { personId })}
+        />
+        <IconButton
+          iconName="bloodtype"
+          label="Glicemia"
+          onPress={() => navigation.navigate('Glycemia', { personId })}
+        />
+        <IconButton
+          iconName="straighten"
+          label="Medidas (Peso / Altura)"
+          onPress={() => navigation.navigate('Measurements', { personId })}
+        />
+        <IconButton
+          iconName="event-note"
+          label="Consultas Médicas"
+          onPress={() => navigation.navigate('Appointments', { personId })}
+        />
+        <IconButton
+          iconName="insert-chart"
+          label="Gráficos"
+          onPress={() => navigation.navigate('Charts', { personId })}
+        />
+        <IconButton
+          iconName="arrow-back"
+          label="Voltar para Lista"
+          onPress={() => navigation.navigate('PeopleList')}
+        />
+        <IconButton
+          iconName="home"
+          label="Voltar para Início"
+          onPress={() => navigation.navigate('Home')}
+        />
       </View>
     </View>
   );

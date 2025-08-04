@@ -1,13 +1,17 @@
 const fonts = {
   family: {
-    regular: 'System',
-    bold: 'System',
+    light: 'Inter-Light',
+    regular: 'Inter-Regular',
+    medium: 'Inter-Medium',
+    semibold: 'Inter-SemiBold',
+    bold: 'Inter-Bold',
   },
   size: {
-    small: 14,
-    medium: 16,
-    large: 20,
-    xlarge: 24,
+    xs: 12,
+    sm: 14,
+    md: 16,
+    lg: 20,
+    xl: 24,
   },
 };
 
