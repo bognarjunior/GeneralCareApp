@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '@/navigation';
+import type { RootStackParamList } from '@/types/navigation';
 import styles from './styles';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'PeopleList'>;

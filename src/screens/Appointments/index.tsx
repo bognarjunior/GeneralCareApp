@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { PersonStackParamList } from '@/navigation';
+import type { PersonStackParamList } from '@/types/navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
 

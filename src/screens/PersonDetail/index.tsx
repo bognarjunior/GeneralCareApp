@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation, CompositeNavigationProp, useRoute } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList, PersonStackParamList } from '@/navigation';
+import type { RootStackParamList, PersonStackParamList } from '@/types/navigation';
 import type { RouteProp } from '@react-navigation/native';
 import styles from './styles';
 import IconButton from '@/components/IconButton';
