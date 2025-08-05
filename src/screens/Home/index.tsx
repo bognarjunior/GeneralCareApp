@@ -49,18 +49,18 @@ const HomeScreen = () => {
 
         <View style={styles.cardsArea}>
           <Card
-            icon={<Icon name="person-add-alt" size={theme.fonts.size.xl} color={theme.colors.primary} />}
+            icon={<Icon name="person-add-alt" size={theme.fonts.size.xxxl} color={theme.colors.primary} />}
             title="Cadastro de Usuário"
             description="Gerencie informações pessoais e saúde"
             onPress={() => navigation.navigate('PeopleRegister')}
-            rightIcon={<Icon name="chevron-right" size={24} color={theme.colors.muted} />}
+            rightIcon={<Icon name="chevron-right" size={theme.fonts.size.xl} color={theme.colors.muted} />}
           />
           <Card
-            icon={<Icon name="groups" size={theme.fonts.size.xl} color={theme.colors.primary} />}
+            icon={<Icon name="groups" size={theme.fonts.size.xxxl} color={theme.colors.primary} />}
             title="Listar Pessoas"
             description="Veja todas as pessoas cadastradas"
             onPress={() => navigation.navigate('PeopleList')}
-            rightIcon={<Icon name="chevron-right" size={24} color={theme.colors.muted} />}
+            rightIcon={<Icon name="chevron-right" size={theme.fonts.size.xl} color={theme.colors.muted} />}
           />
         </View>
       </ScrollView>

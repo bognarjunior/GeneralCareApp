@@ -16,6 +16,14 @@ const fonts = {
     xxxl: 40,
     display: 48,
   },
+  lineHeight: {
+    xs: 16,
+    sm: 20,
+    md: 24,
+    lg: 28,
+    xl: 32,
+    display: 52,
+  },
 };
 
 export default fonts;

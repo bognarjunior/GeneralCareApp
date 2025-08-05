@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     marginBottom: theme.spacing.md,
-    lineHeight: 52, // Ou use theme se existir
+    lineHeight: theme.fonts.lineHeight.display,
   },
   titleHighlight: {
     color: theme.colors.primary,
