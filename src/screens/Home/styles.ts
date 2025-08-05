@@ -40,18 +40,7 @@ const styles = StyleSheet.create({
     marginHorizontal: theme.spacing.md,
   },
   heroImage: {
-    width: '100%',
-    height: 220, // Ou aumente conforme sua preferência
-    borderRadius: 24, // Mais arredondado
     marginVertical: theme.spacing.xl,
-    alignSelf: 'center',
-    // Sombra leve para iOS/Android
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 6,
-    backgroundColor: '#F5FAFF'
   },
 
   // --- Cards area e cards ---

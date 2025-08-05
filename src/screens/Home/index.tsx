@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
 import CustomText from '@/components/CustomText';
+import CustomImage from '@/components/CustomImage';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -36,10 +37,12 @@ const HomeScreen = () => {
           Cuidamos da saúde da sua família com você. Cadastre pessoas queridas e acompanhe remédios, pressão, glicemia e muito mais.
         </CustomText>
 
-        <Image
+        <CustomImage
           source={require('../../assets/images/healthHero.jpg')}
-          style={styles.heroImage}
           resizeMode="cover"
+          radius="xl"
+          shadow="lg"
+          style={styles.heroImage}
         />
 
         {/* Cards */}
