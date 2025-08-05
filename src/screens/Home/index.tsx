@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
+import CustomText from '@/components/CustomText';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -19,17 +20,21 @@ const HomeScreen = () => {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>
-          Gerencie sua <Text style={styles.titleHighlight}>saúde</Text> com facilidade
-        </Text>
+        <CustomText variant="display" weight="bold" style={styles.title}>
+          Gerencie sua{' '}
+          <CustomText variant="display" weight="bold" color="primary" style={styles.titleHighlight}>
+            saúde
+          </CustomText>{' '}
+          com facilidade
+        </CustomText>
 
-        <Text style={styles.subtitle}>
+        <CustomText variant="subtitle" color="muted" style={styles.subtitle}>
           Cuidar da saúde nunca foi tão simples.
-        </Text>
+        </CustomText>
 
-        <Text style={styles.description}>
+        <CustomText variant="body" color="text" style={styles.description}>
           Cuidamos da saúde da sua família com você. Cadastre pessoas queridas e acompanhe remédios, pressão, glicemia e muito mais.
-        </Text>
+        </CustomText>
 
         <Image
           source={require('../../assets/images/healthHero.jpg')}
@@ -37,6 +42,7 @@ const HomeScreen = () => {
           resizeMode="cover"
         />
 
+        {/* Cards */}
         <View style={styles.cardsArea}>
           <TouchableOpacity
             style={styles.card}
@@ -47,8 +53,12 @@ const HomeScreen = () => {
               <Icon name="person-add-alt" size={36} color="#3B82F6" />
             </View>
             <View style={styles.cardTextBox}>
-              <Text style={styles.cardTitle}>Cadastro de Usuário</Text>
-              <Text style={styles.cardDesc}>Gerencie informações pessoais e saúde</Text>
+              <CustomText variant="title" weight="bold" style={styles.cardTitle}>
+                Cadastro de Usuário
+              </CustomText>
+              <CustomText variant="body" color="muted" style={styles.cardDesc}>
+                Gerencie informações pessoais e saúde
+              </CustomText>
             </View>
             <Icon name="chevron-right" size={24} color="#B0B0B0" />
           </TouchableOpacity>
@@ -62,8 +72,12 @@ const HomeScreen = () => {
               <Icon name="groups" size={36} color="#3B82F6" />
             </View>
             <View style={styles.cardTextBox}>
-              <Text style={styles.cardTitle}>Listar Pessoas</Text>
-              <Text style={styles.cardDesc}>Veja todas as pessoas cadastradas</Text>
+              <CustomText variant="title" weight="bold" style={styles.cardTitle}>
+                Listar Pessoas
+              </CustomText>
+              <CustomText variant="body" color="muted" style={styles.cardDesc}>
+                Veja todas as pessoas cadastradas
+              </CustomText>
             </View>
             <Icon name="chevron-right" size={24} color="#B0B0B0" />
           </TouchableOpacity>
