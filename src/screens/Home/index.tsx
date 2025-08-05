@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
@@ -8,8 +7,9 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
 import CustomText from '@/components/CustomText';
 import CustomImage from '@/components/CustomImage';
-import Card from '@/components/Card'; // O Card componentizado
+import Card from '@/components/Card';
 import theme from '@/theme';
+import Container from '@/components/Container';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -17,7 +17,7 @@ const HomeScreen = () => {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <Container style={styles.safeArea}>
       <ScrollView
         contentContainerStyle={styles.container}
         keyboardShouldPersistTaps="handled"
@@ -64,7 +64,7 @@ const HomeScreen = () => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Container>
   );
 };
 
