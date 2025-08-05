@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
@@ -8,6 +8,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
 import CustomText from '@/components/CustomText';
 import CustomImage from '@/components/CustomImage';
+import Card from '@/components/Card'; // O Card componentizado
+import theme from '@/theme';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -45,45 +47,21 @@ const HomeScreen = () => {
           style={styles.heroImage}
         />
 
-        {/* Cards */}
         <View style={styles.cardsArea}>
-          <TouchableOpacity
-            style={styles.card}
-            activeOpacity={0.9}
+          <Card
+            icon={<Icon name="person-add-alt" size={theme.fonts.size.xl} color={theme.colors.primary} />}
+            title="Cadastro de Usuário"
+            description="Gerencie informações pessoais e saúde"
             onPress={() => navigation.navigate('PeopleRegister')}
-          >
-            <View style={styles.cardIconBox}>
-              <Icon name="person-add-alt" size={36} color="#3B82F6" />
-            </View>
-            <View style={styles.cardTextBox}>
-              <CustomText variant="title" weight="bold" style={styles.cardTitle}>
-                Cadastro de Usuário
-              </CustomText>
-              <CustomText variant="body" color="muted" style={styles.cardDesc}>
-                Gerencie informações pessoais e saúde
-              </CustomText>
-            </View>
-            <Icon name="chevron-right" size={24} color="#B0B0B0" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.card}
-            activeOpacity={0.9}
+            rightIcon={<Icon name="chevron-right" size={24} color={theme.colors.muted} />}
+          />
+          <Card
+            icon={<Icon name="groups" size={theme.fonts.size.xl} color={theme.colors.primary} />}
+            title="Listar Pessoas"
+            description="Veja todas as pessoas cadastradas"
             onPress={() => navigation.navigate('PeopleList')}
-          >
-            <View style={styles.cardIconBox}>
-              <Icon name="groups" size={36} color="#3B82F6" />
-            </View>
-            <View style={styles.cardTextBox}>
-              <CustomText variant="title" weight="bold" style={styles.cardTitle}>
-                Listar Pessoas
-              </CustomText>
-              <CustomText variant="body" color="muted" style={styles.cardDesc}>
-                Veja todas as pessoas cadastradas
-              </CustomText>
-            </View>
-            <Icon name="chevron-right" size={24} color="#B0B0B0" />
-          </TouchableOpacity>
+            rightIcon={<Icon name="chevron-right" size={24} color={theme.colors.muted} />}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

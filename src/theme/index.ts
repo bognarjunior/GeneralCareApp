@@ -5,6 +5,7 @@ import radius from './radius';
 import shadows from './shadows';
 import border from './border';
 import opacity from './opacity';
+import sizes from './sizes';
 
 const theme = {
   colors,
@@ -14,6 +15,7 @@ const theme = {
   shadows,
   border,
   opacity,
+  sizes
 };
 
 export default theme;
