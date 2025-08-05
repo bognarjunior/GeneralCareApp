@@ -1,22 +1,76 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '@/types/navigation/';
-import styles from './styles';
-const HomeScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+import type { RootStackParamList } from '@/types/navigation';
 
-  const {container, label} = styles;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+const HomeScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
 
   return (
-    <View style={container}>
-      <Text style={label}>Home Screen</Text>
-      <Button title="Lista de Pessoas" onPress={() => navigation.navigate('PeopleList')} />
-      <Button title="Cadastrar Pessoa" onPress={() => navigation.navigate('PeopleRegister')} />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <Text style={styles.title}>
+          Gerencie sua <Text style={styles.titleHighlight}>saúde</Text> com facilidade
+        </Text>
+
+        <Text style={styles.subtitle}>
+          Cuidar da saúde nunca foi tão simples.
+        </Text>
+
+        <Text style={styles.description}>
+          Cuidamos da saúde da sua família com você. Cadastre pessoas queridas e acompanhe remédios, pressão, glicemia e muito mais.
+        </Text>
+
+        <Image
+          source={require('../../assets/images/healthHero.jpg')}
+          style={styles.heroImage}
+          resizeMode="cover"
+        />
+
+        <View style={styles.cardsArea}>
+          <TouchableOpacity
+            style={styles.card}
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('PeopleRegister')}
+          >
+            <View style={styles.cardIconBox}>
+              <Icon name="person-add-alt" size={36} color="#3B82F6" />
+            </View>
+            <View style={styles.cardTextBox}>
+              <Text style={styles.cardTitle}>Cadastro de Usuário</Text>
+              <Text style={styles.cardDesc}>Gerencie informações pessoais e saúde</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#B0B0B0" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.card}
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('PeopleList')}
+          >
+            <View style={styles.cardIconBox}>
+              <Icon name="groups" size={36} color="#3B82F6" />
+            </View>
+            <View style={styles.cardTextBox}>
+              <Text style={styles.cardTitle}>Listar Pessoas</Text>
+              <Text style={styles.cardDesc}>Veja todas as pessoas cadastradas</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#B0B0B0" />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default HomeScreen;
-
