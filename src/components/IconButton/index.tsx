@@ -18,8 +18,9 @@ const IconButton: React.FC<IconButtonProps> = ({
     <TouchableOpacity
       style={[styles.container, { backgroundColor }]}
       onPress={onPress}
+      testID="icon-button"
     >
-      <Icon name={iconName} size={20} color={iconColor} style={styles.icon} />
+      <Icon name={iconName} size={20} color={iconColor} style={styles.icon} testID="icon-button-icon" />
       <Text style={[styles.label, { color: textColor }]}>{label}</Text>
     </TouchableOpacity>
   );

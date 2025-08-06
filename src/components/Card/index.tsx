@@ -13,9 +13,15 @@ const Card: React.FC<CardProps> = ({
   rightIcon,
 }) => {
   const Container = onPress ? TouchableOpacity : View;
+  const containerTestID = onPress ? 'card-touchable' : 'card-container';
 
   return (
-    <Container style={[styles.card, style]} activeOpacity={0.9} onPress={onPress}>
+    <Container 
+      style={[styles.card, style]}
+      activeOpacity={0.9}
+      onPress={onPress}
+      testID={containerTestID}
+    >
       <View style={styles.iconBox}>{icon}</View>
       <View style={styles.textBox}>
         <CustomText variant="title" weight="bold" style={styles.cardTitle}>
