@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   title: {
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: theme.spacing.md,
     lineHeight: theme.fonts.lineHeight.display,
   },
@@ -20,14 +20,13 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
   subtitle: {
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: theme.spacing.lg,
     marginTop: theme.spacing.sm,
   },
   description: {
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: theme.spacing.xl,
-    marginHorizontal: theme.spacing.md,
   },
   heroImage: {
     marginVertical: theme.spacing.xl,

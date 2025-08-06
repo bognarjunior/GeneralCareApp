@@ -6,10 +6,10 @@ import styles from './styles';
 
 const variantMap: Record<Variant, number> = {
   display: theme.fonts.size.display,
-  title: theme.fonts.size.xl,
-  subtitle: theme.fonts.size.lg,
-  body: theme.fonts.size.md,
-  caption: theme.fonts.size.sm,
+  title: theme.fonts.size.xxl,
+  subtitle: theme.fonts.size.xl,
+  body: theme.fonts.size.lg,
+  caption: theme.fonts.size.md,
 };
 
 const weightMap: Record<Weight, string> = {

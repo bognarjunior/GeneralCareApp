@@ -1,13 +1,14 @@
-/**
- * @format
- */
-
 import React from 'react';
-import ReactTestRenderer from 'react-test-renderer';
+import { render } from '@testing-library/react-native';
 import App from '../src/App';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-test('renders correctly', async () => {
-  await ReactTestRenderer.act(() => {
-    ReactTestRenderer.create(<App />);
+describe('App', () => {
+  it('mounts without crashing', () => {
+    render(
+      <SafeAreaProvider>
+        <App />
+      </SafeAreaProvider>
+    );
   });
 });
