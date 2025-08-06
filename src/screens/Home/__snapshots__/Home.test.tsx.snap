@@ -1,0 +1,494 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeScreen bater snapshot 1`] = `
+<RCTSafeAreaView
+  style={
+    [
+      {
+        "backgroundColor": "#FFFFFF",
+        "flex": 1,
+      },
+      {
+        "backgroundColor": "#FFFFFF",
+        "flex": 1,
+      },
+    ]
+  }
+>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "backgroundColor": "#FFFFFF",
+        "paddingHorizontal": 24,
+        "paddingTop": 32,
+      }
+    }
+    keyboardShouldPersistTaps="handled"
+    showsVerticalScrollIndicator={false}
+  >
+    <View>
+      <Text
+        style={
+          [
+            {
+              "color": "#333333",
+            },
+            {
+              "color": "#333333",
+              "fontFamily": "Inter-Bold",
+              "fontSize": 48,
+            },
+            {
+              "lineHeight": 52,
+              "marginBottom": 16,
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        Gerencie sua
+         
+        <Text
+          style={
+            [
+              {
+                "color": "#333333",
+              },
+              {
+                "color": "#3B82F6",
+                "fontFamily": "Inter-Bold",
+                "fontSize": 48,
+              },
+              {
+                "color": "#3B82F6",
+              },
+            ]
+          }
+        >
+          saúde
+        </Text>
+         
+        com facilidade
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "#333333",
+            },
+            {
+              "color": "#999999",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 24,
+            },
+            {
+              "marginBottom": 24,
+              "marginTop": 8,
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        Cuidar da saúde nunca foi tão simples.
+      </Text>
+      <Text
+        style={
+          [
+            {
+              "color": "#333333",
+            },
+            {
+              "color": "#333333",
+              "fontFamily": "Inter-Regular",
+              "fontSize": 20,
+            },
+            {
+              "marginBottom": 32,
+              "textAlign": "left",
+            },
+          ]
+        }
+      >
+        Cuidamos da saúde da sua família com você. Cadastre pessoas queridas e acompanhe remédios, pressão, glicemia e muito mais.
+      </Text>
+      <Image
+        resizeMode="cover"
+        source={
+          {
+            "testUri": "../../../src/assets/images/healthHero.jpg",
+          }
+        }
+        style={
+          [
+            {
+              "backgroundColor": "#F9F9F9",
+              "height": 220,
+              "width": "100%",
+            },
+            {
+              "borderRadius": 24,
+            },
+            {
+              "elevation": 6,
+              "shadowColor": "#000",
+              "shadowOffset": {
+                "height": 4,
+                "width": 0,
+              },
+              "shadowOpacity": 0.2,
+              "shadowRadius": 6,
+            },
+            {
+              "marginVertical": 32,
+            },
+          ]
+        }
+      />
+      <View
+        style={
+          {
+            "gap": 24,
+            "marginBottom": 32,
+            "marginTop": 32,
+          }
+        }
+      >
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#F9F9F9",
+              "borderRadius": 16,
+              "elevation": 1,
+              "flexDirection": "row",
+              "marginBottom": 16,
+              "opacity": 1,
+              "padding": 24,
+              "shadowColor": "#000",
+              "shadowOffset": {
+                "height": 1,
+                "width": 0,
+              },
+              "shadowOpacity": 0.1,
+              "shadowRadius": 1,
+            }
+          }
+          testID="card-touchable"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "backgroundColor": "#3B82F611",
+                "borderRadius": 8,
+                "height": 48,
+                "justifyContent": "center",
+                "marginRight": 16,
+                "width": 48,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              selectable={false}
+              style={
+                [
+                  {
+                    "color": "#3B82F6",
+                    "fontSize": 40,
+                  },
+                  undefined,
+                  {
+                    "fontFamily": "Material Icons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <View
+            style={
+              {
+                "flex": 1,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#333333",
+                  },
+                  {
+                    "color": "#333333",
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 32,
+                  },
+                  {
+                    "color": "#333333",
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 20,
+                    "marginBottom": 2,
+                  },
+                ]
+              }
+            >
+              Cadastro de Usuário
+            </Text>
+            <Text
+              style={
+                [
+                  {
+                    "color": "#333333",
+                  },
+                  {
+                    "color": "#999999",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 20,
+                  },
+                  {
+                    "color": "#999999",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                  },
+                ]
+              }
+            >
+              Gerencie informações pessoais e saúde
+            </Text>
+          </View>
+          <View
+            style={
+              {
+                "color": "#999999",
+                "marginLeft": 8,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              selectable={false}
+              style={
+                [
+                  {
+                    "color": "#999999",
+                    "fontSize": 24,
+                  },
+                  undefined,
+                  {
+                    "fontFamily": "Material Icons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": undefined,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#F9F9F9",
+              "borderRadius": 16,
+              "elevation": 1,
+              "flexDirection": "row",
+              "marginBottom": 16,
+              "opacity": 1,
+              "padding": 24,
+              "shadowColor": "#000",
+              "shadowOffset": {
+                "height": 1,
+                "width": 0,
+              },
+              "shadowOpacity": 0.1,
+              "shadowRadius": 1,
+            }
+          }
+          testID="card-touchable"
+        >
+          <View
+            style={
+              {
+                "alignItems": "center",
+                "backgroundColor": "#3B82F611",
+                "borderRadius": 8,
+                "height": 48,
+                "justifyContent": "center",
+                "marginRight": 16,
+                "width": 48,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              selectable={false}
+              style={
+                [
+                  {
+                    "color": "#3B82F6",
+                    "fontSize": 40,
+                  },
+                  undefined,
+                  {
+                    "fontFamily": "Material Icons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <View
+            style={
+              {
+                "flex": 1,
+                "justifyContent": "center",
+              }
+            }
+          >
+            <Text
+              style={
+                [
+                  {
+                    "color": "#333333",
+                  },
+                  {
+                    "color": "#333333",
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 32,
+                  },
+                  {
+                    "color": "#333333",
+                    "fontFamily": "Inter-Bold",
+                    "fontSize": 20,
+                    "marginBottom": 2,
+                  },
+                ]
+              }
+            >
+              Listar Pessoas
+            </Text>
+            <Text
+              style={
+                [
+                  {
+                    "color": "#333333",
+                  },
+                  {
+                    "color": "#999999",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 20,
+                  },
+                  {
+                    "color": "#999999",
+                    "fontFamily": "Inter-Regular",
+                    "fontSize": 14,
+                  },
+                ]
+              }
+            >
+              Veja todas as pessoas cadastradas
+            </Text>
+          </View>
+          <View
+            style={
+              {
+                "color": "#999999",
+                "marginLeft": 8,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              selectable={false}
+              style={
+                [
+                  {
+                    "color": "#999999",
+                    "fontSize": 24,
+                  },
+                  undefined,
+                  {
+                    "fontFamily": "Material Icons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</RCTSafeAreaView>
+`;
