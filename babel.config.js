@@ -5,12 +5,11 @@ module.exports = {
       'module-resolver',
       {
         root: ['./src'],
-        alias: {
-          '@': './src',
-        },
+        alias: { '@': './src' },
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       },
     ],
-    'react-native-reanimated/plugin', 
+    '@babel/plugin-transform-export-namespace-from', // adiciona este
+    'react-native-worklets/plugin', // mantenha por último
   ],
 };
