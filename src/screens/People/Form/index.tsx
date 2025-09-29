@@ -1,12 +1,14 @@
 // src/screens/People/Form/index.tsx
 import React, { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import styles from './styles';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Container from '@/components/Container';
 import CustomText from '@/components/CustomText';
-import IconButton from '@/components/IconButton';
 import FormTextField from '@/components/FormTextField';
 import FormDateField from '@/components/FormDateField';
+import Button from '@/components/Button';
+import Surface from '@/components/Surface';
+import styles from './styles';
 import theme from '@/theme';
 import { usePeople } from '@/hooks/usePeople';
 import { personCreateSchema } from '@/utils/validators/person';
@@ -14,10 +16,13 @@ import type { PersonCreateSchema } from '@/utils/validators/person';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
+import Toast from '@/components/Toast';
+import { isValidDDMMYYYY } from '@/utils/date';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 
 const PersonFormScreen: React.FC = () => {
+  const insets = useSafeAreaInsets();
   const navigation = useNavigation<Nav>();
   const { createPerson } = usePeople();
 
@@ -30,14 +35,12 @@ const PersonFormScreen: React.FC = () => {
     Partial<Record<keyof PersonCreateSchema, string>>
   >({});
   const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
 
-  const isValid = useMemo(() => {
-    const parsed = personCreateSchema.safeParse({
-      ...form,
-      birthDate: form.birthDate?.trim() ? form.birthDate : undefined,
-      notes: form.notes?.trim() ? form.notes : undefined,
-    });
-    return parsed.success;
+  const canSave = useMemo(() => {
+    if (form.fullName.trim().length < 2) return false;
+    if (form.birthDate && !isValidDDMMYYYY(form.birthDate)) return false;
+    return true;
   }, [form]);
 
   function setField<K extends keyof PersonCreateSchema>(
@@ -66,18 +69,22 @@ const PersonFormScreen: React.FC = () => {
       });
       setErrors(fieldErrors);
       setSubmitting(false);
+      setToast({ type: 'error', msg: 'Revise os campos destacados.' });
       return;
     }
 
     try {
-      const created = await createPerson({
-        fullName: parsed.data.fullName,
-        birthDate: parsed.data.birthDate,
-        notes: parsed.data.notes,
-      });
-      navigation.navigate('PersonDetailStack', { personId: created.id });
+      const created = await createPerson(parsed.data);
+      setToast({ type: 'success', msg: 'Pessoa cadastrada com sucesso!' });
+      // CHANGE: aguarda o Toast aparecer antes de navegar
+      const TOAST_MS = 1200;
+      setTimeout(
+        () => navigation.navigate('PersonDetailStack', { personId: created.id }),
+        TOAST_MS + 200
+      );
     } catch (e) {
       console.error('Falha ao criar pessoa:', e);
+      setToast({ type: 'error', msg: 'Não foi possível salvar. Tente novamente.' });
     } finally {
       setSubmitting(false);
     }
@@ -86,53 +93,83 @@ const PersonFormScreen: React.FC = () => {
   return (
     <Container>
       <ScrollView
-        contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={[
+          styles.content,
+          { paddingBottom: insets.bottom + theme.spacing.xl },
+        ]}
       >
-        <CustomText variant="title" weight="bold" style={styles.header}>
-          Cadastrar pessoa
+        <CustomText variant="title" weight="bold" style={styles.title}>
+          Nova pessoa
         </CustomText>
 
-        <View style={styles.formGroup}>
-          <FormTextField
-            label="Nome completo"
-            placeholder="Ex.: João da Silva"
-            autoCapitalize="words"
-            returnKeyType="next"
-            value={form.fullName}
-            onChangeText={t => setField('fullName', t)}
-            error={errors.fullName}
-          />
+        <CustomText variant="subtitle" color="muted" style={styles.subtitle}>
+          Preencha suas informações para começar a usar o app.
+        </CustomText>
 
-          <FormDateField
-            label="Data de nascimento (opcional)"
-            value={form.birthDate ?? ''}
-            onChangeText={t => setField('birthDate', t)}
-            error={errors.birthDate}
-          />
+        <Surface gradient padding="lg" style={styles.surface}>
+          <View style={styles.formGroup}>
+            <FormTextField
+              label="Nome *"
+              placeholder="Ex.: João da Silva"
+              autoCapitalize="words"
+              returnKeyType="next"
+              value={form.fullName}
+              onChangeText={t => setField('fullName', t)}
+              error={errors.fullName}
+            />
 
-          <FormTextField
-            label="Observações (opcional)"
-            placeholder="Alergias, observações gerais…"
-            multiline
-            numberOfLines={4}
-            value={form.notes ?? ''}
-            onChangeText={t => setField('notes', t)}
-            error={errors.notes}
-            textAlignVertical="top"
-          />
-        </View>
+            <FormDateField
+              label="Data de nascimento"
+              value={form.birthDate ?? ''}
+              onChangeText={t => setField('birthDate', t)}
+              error={errors.birthDate}
+              testID="birthdate"
+            />
 
-        <IconButton
-          iconName="save"
-          label={submitting ? 'Salvando...' : 'Salvar'}
-          onPress={handleSubmit}
-          backgroundColor={isValid ? theme.colors.primary : theme.colors.disabled}
-          iconColor={theme.colors.white}
-          textColor={theme.colors.white}
-        />
+            <FormTextField
+              label="Observações"
+              placeholder="Alergias, observações gerais..."
+              multiline
+              numberOfLines={5}
+              value={form.notes ?? ''}
+              onChangeText={t => setField('notes', t)}
+              error={errors.notes}
+              textAlignVertical="top"
+              inputStyle={styles.notesInput}
+            />
+
+            <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
+              <Button
+                variant="primary"
+                label="Salvar"
+                gradient
+                onPress={handleSubmit}
+                disabled={!canSave || submitting}
+                testID="btn-save"
+              />
+              <Button
+                variant="danger"
+                label="Cancelar"
+                gradient
+                onPress={() => navigation.goBack()}
+                testID="btn-cancel"
+              />
+            </Button.Group>
+          </View>
+        </Surface>
       </ScrollView>
+
+      <Toast
+        visible={!!toast}
+        variant={toast?.type ?? 'success'}
+        message={toast?.msg ?? ''}
+        onHide={() => setToast(null)}
+        position="bottom"
+        offset={theme.spacing.xl}
+        duration={1200} 
+      />
     </Container>
   );
 };

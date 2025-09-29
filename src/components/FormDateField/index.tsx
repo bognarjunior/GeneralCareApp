@@ -1,13 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { Platform, TouchableOpacity, View, Modal, Pressable } from 'react-native';
+import { Platform, View, TouchableOpacity, Modal, Pressable } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import CustomText from '@/components/CustomText';
 import styles from './styles';
 import theme from '@/theme';
-import CustomText from '@/components/CustomText';
 import type { FormDateFieldProps } from '@/types/components/FormDateField';
-import { formatDDMMYYYY, parseDDMMYYYY } from '@/utils/date';
+import { parseDDMMYYYY, formatDDMMYYYY } from '@/utils/date';
 
 const FormDateField: React.FC<FormDateFieldProps> = ({
   label,
@@ -18,65 +17,35 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
   minDate,
   maxDate,
   disabled,
-  testID,
   style,
   labelStyle,
-  inputStyle,
+  testID,
 }) => {
   const [show, setShow] = useState(false);
-  const [temp, setTemp] = useState<Date | null>(null);
 
   const selectedDate = useMemo<Date>(() => {
-    const parsed = parseDDMMYYYY(value);
-    return parsed ?? new Date(1990, 0, 1);
+    return parseDDMMYYYY(value) ?? new Date(1990, 0, 1);
   }, [value]);
 
-  const openPicker = () => {
-    if (disabled) return;
-    setTemp(selectedDate);
-    setShow(true);
+  const onChange = (evt: DateTimePickerEvent, date?: Date) => {
+    if (Platform.OS === 'android') setShow(false);
+    if (evt.type === 'dismissed' || !date) return;
+    onChangeText(formatDDMMYYYY(date));
   };
-
-  // ANDROID – modal nativo
-  const onAndroidChange = (evt: DateTimePickerEvent, date?: Date) => {
-    if (evt.type === 'dismissed') {
-      setShow(false);
-      return;
-    }
-    if (date) onChangeText(formatDDMMYYYY(date));
-    setShow(false);
-  };
-
-  // iOS – modal próprio com OK/Cancelar
-  const onIOSChange = (_evt: DateTimePickerEvent, date?: Date) => {
-    if (date) setTemp(date);
-  };
-  const confirmIOS = () => {
-    if (temp) onChangeText(formatDDMMYYYY(temp));
-    setShow(false);
-  };
-  const cancelIOS = () => {
-    setTemp(null);
-    setShow(false);
-  };
-
-  const borderStyle = error
-    ? { borderColor: theme.colors.danger }
-    : { borderColor: theme.colors.border };
 
   return (
     <View style={[styles.wrapper, style]}>
       {!!label && (
-        <CustomText variant="caption" weight="medium" color="muted" style={labelStyle}>
+        <CustomText variant="caption" color="muted" style={[styles.label, labelStyle]}>
           {label}
         </CustomText>
       )}
 
       <TouchableOpacity
-        testID={testID ?? 'date-field-touchable'}
         activeOpacity={disabled ? 1 : 0.7}
-        style={[styles.input, borderStyle, disabled && styles.inputDisabled, inputStyle]}
-        onPress={openPicker}
+        style={[styles.input, disabled && styles.inputDisabled, !!error && styles.inputError]}
+        onPress={() => !disabled && setShow(true)}
+        testID={testID || 'date-field'}
       >
         <CustomText
           variant="body"
@@ -86,7 +55,10 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
         >
           {value || placeholder}
         </CustomText>
-        <Icon name="calendar-today" size={theme.sizes.icon.md} color={theme.colors.muted} />
+
+        <View style={styles.iconBox}>
+          <Icon name="calendar-today" size={20} color={theme.colors.muted} />
+        </View>
       </TouchableOpacity>
 
       {!!error && (
@@ -99,35 +71,36 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
         <DateTimePicker
           value={selectedDate}
           mode="date"
-          display="default"
+          display="calendar"
           minimumDate={minDate}
           maximumDate={maxDate}
-          onChange={onAndroidChange}
+          onChange={onChange}
         />
       )}
 
       {Platform.OS === 'ios' && (
-        <Modal visible={show} transparent animationType="fade" onRequestClose={cancelIOS}>
-          <Pressable style={styles.backdrop} onPress={cancelIOS} />
+        <Modal visible={show} transparent animationType="fade" onRequestClose={() => setShow(false)}>
+          <Pressable style={styles.backdrop} onPress={() => setShow(false)} />
           <View style={styles.sheet}>
             <View style={styles.sheetHeader}>
-              <CustomText variant="subtitle" weight="semibold">Selecionar data</CustomText>
+              <CustomText variant="title" weight="semibold">Selecionar data</CustomText>
               <View style={styles.headerActions}>
-                <TouchableOpacity onPress={cancelIOS} style={styles.headerBtn}>
+                <TouchableOpacity onPress={() => setShow(false)} style={styles.headerBtn}>
                   <CustomText variant="body" color="muted">Cancelar</CustomText>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={confirmIOS} style={styles.headerBtn}>
+                <TouchableOpacity onPress={() => setShow(false)} style={styles.headerBtn}>
                   <CustomText variant="body" color="primary" weight="bold">OK</CustomText>
                 </TouchableOpacity>
               </View>
             </View>
+
             <DateTimePicker
-              value={temp ?? selectedDate}
+              value={selectedDate}
               mode="date"
               display="inline"
               minimumDate={minDate}
               maximumDate={maxDate}
-              onChange={onIOSChange}
+              onChange={onChange}
               themeVariant="light"
               style={styles.iosPicker}
             />

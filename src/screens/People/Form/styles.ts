@@ -3,15 +3,34 @@ import theme from '@/theme';
 
 export default StyleSheet.create({
   content: {
+    backgroundColor: theme.colors.background,
+    paddingTop: theme.spacing.lg,
     paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.xl,
-    paddingBottom: theme.spacing.xl,
-    gap: theme.spacing.lg,
   },
-  header: {
-    textAlign: 'left',
+
+  title: {
+    textAlign: 'center',
+    marginBottom: theme.spacing.xs,
   },
+
+  subtitle: {
+    textAlign: 'center',
+    marginBottom: theme.spacing.lg,
+  },
+
+  surface: {
+    marginTop: theme.spacing.sm,
+  },
+
   formGroup: {
-    gap: theme.spacing.sm,
+    gap: theme.spacing.md,
+  },
+
+  notesInput: {
+    minHeight: 120,
+  },
+
+  buttons: {
+    marginTop: theme.spacing.lg,
   },
 });

@@ -6,6 +6,7 @@ import shadows from './shadows';
 import border from './border';
 import opacity from './opacity';
 import sizes from './sizes';
+import gradients from './gradients';
 
 const theme = {
   colors,
@@ -15,7 +16,8 @@ const theme = {
   shadows,
   border,
   opacity,
-  sizes
+  sizes,
+  gradients,
 };
 
 export default theme;

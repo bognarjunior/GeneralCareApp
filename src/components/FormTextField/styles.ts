@@ -1,28 +1,60 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import theme from '@/theme';
 
-export default StyleSheet.create({
+const INPUT_HEIGHT = 48;
+const PAD_H = theme.spacing.md;
+const PAD_V = Platform.select({ ios: 12, android: 8 }) as number;
+
+const styles = StyleSheet.create({
   container: {
-    marginBottom: theme.spacing.md,
+    width: '100%',
+    marginBottom: theme.spacing.lg,
   },
   label: {
     marginBottom: theme.spacing.xs,
   },
-  input: {
-    borderWidth: 1,
+
+  field: {
+    width: '100%',
+    height: INPUT_HEIGHT,
+    borderWidth: theme.border.width.hairline,
     borderColor: theme.colors.border,
     backgroundColor: theme.colors.surface,
     borderRadius: theme.radius.md,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    fontFamily: theme.fonts.family.regular,
-    fontSize: theme.fonts.size.md,
-    color: theme.colors.text,
+    paddingLeft: PAD_H,
+    paddingRight: PAD_H,
+    paddingVertical: PAD_V,
+    justifyContent: 'center',
   },
-  inputError: {
+  fieldError: {
     borderColor: theme.colors.danger,
   },
+
+  input: {
+    flex: 1,
+    paddingVertical: 0,
+    fontFamily: theme.fonts.family.regular,
+    fontSize: theme.fonts.size.md,
+    lineHeight: Math.round(theme.fonts.size.md * 1.25),
+    color: theme.colors.text,
+    includeFontPadding: false,
+  },
+
+  inputSingleAndroid: {
+    textAlignVertical: 'center',
+  },
+
+  inputMultiline: {
+    textAlignVertical: 'top',
+  },
+
   error: {
     marginTop: theme.spacing.xs,
   },
+
+  placeholderColor: {
+    color: theme.colors.muted,
+  },
 });
+
+export default styles;
