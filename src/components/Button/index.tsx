@@ -1,4 +1,3 @@
-// src/components/Button/index.tsx
 import React from 'react';
 import { TouchableOpacity, View, ViewStyle, StyleProp, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -62,14 +61,12 @@ const ButtonBase: React.FC<ButtonProps> = ({
       style={[styles.wrapper, disabled && styles.wrapperDisabled, style]}
       {...touchableProps}
     >
-      {/* O VIEW define largura/altura; o gradiente vira fundo absoluto */}
       <View style={[styles.inner, { backgroundColor: bg }]}>
         {useGradient && (
           <LinearGradient
             colors={gColors}
             start={gradientStart}
             end={gradientEnd}
-            // preenche 100% do inner sem afetar layout
             style={StyleSheet.absoluteFillObject}
           />
         )}

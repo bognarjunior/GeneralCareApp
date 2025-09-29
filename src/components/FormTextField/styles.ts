@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
 
   placeholderColor: {
-    color: theme.colors.muted,
+    color: theme.colors.text,
   },
 });
 

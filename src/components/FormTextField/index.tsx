@@ -27,7 +27,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
   return (
     <View style={[styles.container, containerStyle]}>
       {!!label && (
-        <CustomText variant="caption" color="muted" style={styles.label}>
+        <CustomText variant="caption" color="text" style={styles.label}>
           {label}
         </CustomText>
       )}

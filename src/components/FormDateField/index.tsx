@@ -36,7 +36,7 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
   return (
     <View style={[styles.wrapper, style]}>
       {!!label && (
-        <CustomText variant="caption" color="muted" style={[styles.label, labelStyle]}>
+        <CustomText variant="caption" color="text" style={[styles.label, labelStyle]}>
           {label}
         </CustomText>
       )}
@@ -49,7 +49,7 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
       >
         <CustomText
           variant="body"
-          color={value ? 'text' : 'muted'}
+          color="text"
           style={styles.value}
           numberOfLines={1}
         >
@@ -57,7 +57,7 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
         </CustomText>
 
         <View style={styles.iconBox}>
-          <Icon name="calendar-today" size={20} color={theme.colors.muted} />
+          <Icon name="calendar-today" size={20} color={theme.colors.text} />
         </View>
       </TouchableOpacity>
 
@@ -83,7 +83,7 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
           <Pressable style={styles.backdrop} onPress={() => setShow(false)} />
           <View style={styles.sheet}>
             <View style={styles.sheetHeader}>
-              <CustomText variant="title" weight="semibold">Selecionar data</CustomText>
+              <CustomText variant="subtitle" weight="semibold">Selecionar data</CustomText>
               <View style={styles.headerActions}>
                 <TouchableOpacity onPress={() => setShow(false)} style={styles.headerBtn}>
                   <CustomText variant="body" color="muted">Cancelar</CustomText>

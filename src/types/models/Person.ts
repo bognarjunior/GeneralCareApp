@@ -3,6 +3,7 @@ export interface Person {
   fullName: string;
   birthDate?: string;
   notes?: string;
+  avatarUri?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -11,6 +12,7 @@ export type CreatePersonInput = {
   fullName: string;
   birthDate?: string;
   notes?: string;
+  avatarUri?: string;
 };
 
 export type UpdatePersonInput = {
@@ -18,4 +20,5 @@ export type UpdatePersonInput = {
   fullName?: string;
   birthDate?: string;
   notes?: string;
+  avatarUri?: string;
 };
