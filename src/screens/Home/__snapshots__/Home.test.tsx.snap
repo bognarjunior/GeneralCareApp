@@ -1,7 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HomeScreen bater snapshot 1`] = `
-<RCTSafeAreaView
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
   style={
     [
       {
@@ -215,27 +223,11 @@ exports[`HomeScreen bater snapshot 1`] = `
               }
             }
           >
-            <Text
-              allowFontScaling={false}
-              selectable={false}
-              style={
-                [
-                  {
-                    "color": "#3B82F6",
-                    "fontSize": 40,
-                  },
-                  undefined,
-                  {
-                    "fontFamily": "Material Icons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  {},
-                ]
-              }
-            >
-              
-            </Text>
+            <Icon
+              color="#3B82F6"
+              name="person-add-alt"
+              size={40}
+            />
           </View>
           <View
             style={
@@ -297,27 +289,11 @@ exports[`HomeScreen bater snapshot 1`] = `
               }
             }
           >
-            <Text
-              allowFontScaling={false}
-              selectable={false}
-              style={
-                [
-                  {
-                    "color": "#999999",
-                    "fontSize": 24,
-                  },
-                  undefined,
-                  {
-                    "fontFamily": "Material Icons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  {},
-                ]
-              }
-            >
-              
-            </Text>
+            <Icon
+              color="#999999"
+              name="chevron-right"
+              size={24}
+            />
           </View>
         </View>
         <View
@@ -382,27 +358,11 @@ exports[`HomeScreen bater snapshot 1`] = `
               }
             }
           >
-            <Text
-              allowFontScaling={false}
-              selectable={false}
-              style={
-                [
-                  {
-                    "color": "#3B82F6",
-                    "fontSize": 40,
-                  },
-                  undefined,
-                  {
-                    "fontFamily": "Material Icons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  {},
-                ]
-              }
-            >
-              
-            </Text>
+            <Icon
+              color="#3B82F6"
+              name="groups"
+              size={40}
+            />
           </View>
           <View
             style={
@@ -464,31 +424,15 @@ exports[`HomeScreen bater snapshot 1`] = `
               }
             }
           >
-            <Text
-              allowFontScaling={false}
-              selectable={false}
-              style={
-                [
-                  {
-                    "color": "#999999",
-                    "fontSize": 24,
-                  },
-                  undefined,
-                  {
-                    "fontFamily": "Material Icons",
-                    "fontStyle": "normal",
-                    "fontWeight": "normal",
-                  },
-                  {},
-                ]
-              }
-            >
-              
-            </Text>
+            <Icon
+              color="#999999"
+              name="chevron-right"
+              size={24}
+            />
           </View>
         </View>
       </View>
     </View>
   </RCTScrollView>
-</RCTSafeAreaView>
+</RNCSafeAreaView>
 `;
