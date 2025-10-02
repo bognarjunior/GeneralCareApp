@@ -11,7 +11,7 @@ const PeopleListScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const { container, label } = styles;
 
-  const personId = '123'; // exemplo fixo, você pode trocar pela lógica real de lista
+  const personId = '123';
 
   return (
     <View style={container}>

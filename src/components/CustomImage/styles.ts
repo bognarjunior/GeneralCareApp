@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 220,
-    backgroundColor: theme.colors.surface, // supondo que você adicionou no theme!
+    backgroundColor: theme.colors.surface,
   },
 });
 

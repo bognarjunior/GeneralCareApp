@@ -1,4 +1,3 @@
-// src/components/Toast/index.tsx (ou Toast.tsx, mantenha o mesmo caminho que já usa)
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';

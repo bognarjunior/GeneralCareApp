@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
     alignSelf: 'stretch',
@@ -27,3 +27,5 @@ export default StyleSheet.create({
   },
   equal: { flex: 1 },
 });
+
+export default styles;

@@ -1,5 +1,3 @@
-// src/navigation/PersonalDrawerNavigator.tsx
-
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useRoute, RouteProp } from '@react-navigation/native';
