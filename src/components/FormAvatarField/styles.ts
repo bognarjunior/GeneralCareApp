@@ -1,7 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
 import theme from '@/theme';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     marginBottom: theme.spacing.lg,
   },
@@ -68,3 +68,5 @@ export default StyleSheet.create({
     opacity: 0.5,
   },
 });
+
+export default styles;
