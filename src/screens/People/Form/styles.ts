@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   content: {
     backgroundColor: theme.colors.background,
     paddingTop: theme.spacing.lg,
@@ -34,3 +34,5 @@ export default StyleSheet.create({
     marginTop: theme.spacing.lg,
   },
 });
+
+export default styles;

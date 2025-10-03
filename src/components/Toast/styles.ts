@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
-export default StyleSheet.create({
+const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
     left: theme.spacing.lg,
@@ -19,3 +19,5 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default styles;
