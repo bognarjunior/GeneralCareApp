@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useMemo } from 'react';
 import { View, TextInput, Platform } from 'react-native';
 import CustomText from '@/components/CustomText';
