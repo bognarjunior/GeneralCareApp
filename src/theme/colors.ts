@@ -1,9 +1,7 @@
 const colors = {
-  // Básicos
   white: '#FFFFFF',
   black: '#000000',
 
-  // Fundo e textos
   background: '#FFFFFF',
   surface: '#F9F9F9',
   text: '#333333',
@@ -11,12 +9,11 @@ const colors = {
   muted: '#999999',
   border: '#E0E0E0',
 
-  // Ações e estados
-  primary: '#3B82F6',      // Azul principal
+  primary: '#3B82F6',
   primaryDark: '#1D4ED8',
   primaryLight: '#93C5FD',
 
-  secondary: '#8B5CF6',    // Roxo claro
+  secondary: '#8B5CF6',
   secondaryDark: '#6D28D9',
   secondaryLight: '#DDD6FE',
 
@@ -36,7 +33,6 @@ const colors = {
   infoDark: '#0369A1',
   infoLight: '#BAE6FD',
 
-  // Overlay e estados desativados
   overlay: 'rgba(0, 0, 0, 0.4)',
   disabled: '#CCCCCC',
 };

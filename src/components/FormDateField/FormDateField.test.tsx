@@ -33,7 +33,6 @@ jest.mock('@react-native-community/datetimepicker', () => {
 });
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-// Helpers
 const originalOS = Platform.OS;
 const setPlatform = (os: 'ios' | 'android') => {
   Object.defineProperty(Platform, 'OS', {
