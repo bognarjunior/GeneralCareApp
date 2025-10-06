@@ -79,7 +79,6 @@ describe('storage/async', () => {
     await removeKey('temp:key');
 
     expect(AS.removeItem).toHaveBeenCalledWith('temp:key');
-    // confirma que sumiu mesmo
     const result = await getJSON('temp:key');
     expect(result).toBeNull();
   });
