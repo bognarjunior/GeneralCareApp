@@ -45,6 +45,39 @@ describe('peopleRepository', () => {
     expect(mockGetJSON).toHaveBeenCalledWith('@test/people');
   });
 
+  it('list() usa fallback "" quando createdAt está ausente/undefined (ordem estável)', async () => {
+  mockGetJSON.mockResolvedValueOnce([
+    {
+      id: '1',
+      fullName: 'A',
+      createdAt: '2025-01-01T00:00:00.000Z',
+      updatedAt: '2025-01-01T00:00:00.000Z',
+    },
+    {
+      id: '2',
+      fullName: 'B',
+      createdAt: undefined as any,
+      updatedAt: '2025-01-02T00:00:00.000Z',
+    },
+    {
+      id: '3',
+      fullName: 'C',
+      createdAt: '2025-01-02T00:00:00.000Z',
+      updatedAt: '2025-01-02T00:00:00.000Z',
+    },
+    {
+      id: '4',
+      fullName: 'D',
+      createdAt: undefined as any,
+      updatedAt: '2025-01-03T00:00:00.000Z',
+    },
+  ]);
+
+  const out = await repo().list();
+  expect(out.map(p => p.id)).toEqual(['2', '4', '1', '3']);
+});
+
+
   it('getById() retorna item ou null', async () => {
     mockGetJSON.mockResolvedValueOnce([
       mk('1', '2024-01-01T00:00:00.000Z'),
