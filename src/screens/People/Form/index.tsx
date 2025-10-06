@@ -29,8 +29,8 @@ const PersonFormScreen: React.FC = () => {
 
   const [form, setForm] = useState<FormState>({
     fullName: '',
-    birthDate: '',
-    notes: '',
+    birthDate: undefined,
+    notes: undefined,
     avatarUri: undefined,
   });
   const [errors, setErrors] = useState<
