@@ -144,7 +144,7 @@ describe('Button.Group', () => {
 
   it('gap default 12 quando token é inválido', () => {
     const { getByTestId } = render(
-      // @ts-expect-error: token inválido de propósito
+      // @ts-expect-error
       <Button.Group gap="__invalido__">
         <Button label="1" testID="d1" />
         <Button label="2" testID="d2" />

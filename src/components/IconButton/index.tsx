@@ -13,14 +13,22 @@ const IconButton: React.FC<IconButtonProps> = ({
   iconColor = theme.colors.white,
   textColor = theme.colors.white,
 }) => {
-  
+  const containerStyle =
+    backgroundColor === 'transparent' ? styles.containerFlat : styles.container;
+
   return (
     <TouchableOpacity
-      style={[styles.container, { backgroundColor }]}
+      style={[containerStyle, { backgroundColor }]}
       onPress={onPress}
       testID="icon-button"
     >
-      <Icon name={iconName} size={20} color={iconColor} style={styles.icon} testID="icon-button-icon" />
+      <Icon
+        name={iconName}
+        size={20}
+        color={iconColor}
+        style={styles.icon}
+        testID="icon-button-icon"
+      />
       <Text style={[styles.label, { color: textColor }]}>{label}</Text>
     </TouchableOpacity>
   );

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-// src/screens/People/Form/PersonFormScreen.test.tsx
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import PersonFormScreen from './index';
@@ -142,15 +141,14 @@ describe('PersonFormScreen', () => {
     );
   });
 
-  // ==== NOVO teste (APENAS datas): cobre value ?? '' e normalização para undefined no submit ====
   it('Ao apagar a data antes de salvar, birthDate é enviado como undefined', async () => {
     mockCreatePerson.mockResolvedValueOnce({ id: 'xyz' });
 
     const ui = render(<PersonFormScreen />);
 
     fireEvent.changeText(ui.getByPlaceholderText('Ex.: João da Silva'), 'Carlos Silva');
-    fireEvent.changeText(ui.getByTestId('birthdate'), '10/10/2000'); // válida
-    fireEvent.changeText(ui.getByTestId('birthdate'), ''); // limpa (value passa a '')
+    fireEvent.changeText(ui.getByTestId('birthdate'), '10/10/2000');
+    fireEvent.changeText(ui.getByTestId('birthdate'), '');
 
     fireEvent.press(ui.getByTestId('btn-save'));
 
@@ -159,13 +157,12 @@ describe('PersonFormScreen', () => {
       expect(mockCreatePerson).toHaveBeenCalledWith(
         expect.objectContaining({
           fullName: 'Carlos Silva',
-          birthDate: undefined, // normalizado
+          birthDate: undefined,
         })
       );
       expect(mockNavigate).toHaveBeenCalledWith('PersonDetailStack', { personId: 'xyz' });
     });
   });
-  // ==============================================================================================
 
   it('Submit com erro no createPerson cai no catch, loga erro e mostra toast de erro', async () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});

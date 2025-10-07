@@ -1,13 +1,21 @@
 import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
+const base = {
+  flexDirection: 'row' as const,
+  alignItems: 'center' as const,
+  padding: theme.spacing.sm,
+  borderRadius: theme.radius.md,
+};
+
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: theme.spacing.sm,
-    borderRadius: theme.radius.md,
+    ...base,
     ...theme.shadows.sm,
+  },
+  containerFlat: {
+    ...base,
+    ...theme.shadows.none,
   },
   icon: {
     marginRight: theme.spacing.xs,

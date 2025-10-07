@@ -27,4 +27,29 @@ describe('IconButton', () => {
     fireEvent.press(button);
     expect(onPressMock).toHaveBeenCalled();
   });
+
+  it("usa estilo 'flat' quando backgroundColor==='transparent'", () => {
+    const { getByTestId } = render(
+      <IconButton
+        iconName="arrow-back"
+        label="Voltar"
+        onPress={jest.fn()}
+        backgroundColor="transparent"
+      />
+    );
+
+    const button = getByTestId('icon-button');
+    const firstStyle = Array.isArray(button.props.style)
+      ? button.props.style[0]
+      : button.props.style;
+
+    expect(firstStyle).toMatchObject({
+      backgroundColor: 'transparent',
+      elevation: 0,
+      shadowColor: 'transparent',
+      shadowOpacity: 0,
+      shadowRadius: 0,
+      shadowOffset: { width: 0, height: 0 },
+    });
+  });
 });

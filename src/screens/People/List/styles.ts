@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: theme.colors.text,
-    fontSize: theme.fonts.size.large,
+    fontSize: theme.fonts.size.xxxl,
     fontFamily: theme.fonts.family.bold,
     marginBottom: theme.spacing.lg,
   },
