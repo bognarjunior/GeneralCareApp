@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import PersonFormScreen from './index';
 
 const mockCreatePerson = jest.fn();
@@ -189,6 +189,7 @@ describe('PersonFormScreen', () => {
   });
 
   it('Toast onHide limpa o estado do toast (setToast(null))', async () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
     mockCreatePerson.mockRejectedValueOnce(new Error('boom'));
     const ui = render(<PersonFormScreen />);
 
@@ -203,12 +204,17 @@ describe('PersonFormScreen', () => {
 
     const { __getLastOnHide } = getToastHelpers();
     const onHide = __getLastOnHide();
-    onHide && onHide();
+
+    await act(async () => {
+      onHide && onHide();
+    });
 
     await waitFor(() => {
       expect(() => ui.getByTestId('toast')).toThrow();
     });
+    spy.mockRestore();
   });
+
 
   it('Cancelar chama navigation.goBack', () => {
     const ui = render(<PersonFormScreen />);
