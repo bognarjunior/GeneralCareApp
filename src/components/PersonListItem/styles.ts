@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
-const AVATAR = theme.sizes.icon.xl; // diâmetro do avatar
+const AVATAR = theme.sizes.icon.xl;
 
 const styles = StyleSheet.create({
   container: {
@@ -19,34 +19,31 @@ const styles = StyleSheet.create({
     width: AVATAR,
     height: AVATAR,
     borderRadius: AVATAR / 2,
-    backgroundColor: theme.colors.primaryLight,   // azul claro
+    backgroundColor: theme.colors.primaryLight,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: theme.spacing.md,
   },
   avatarText: {
-    color: theme.colors.primaryDark,              // azul escuro
+    color: theme.colors.primaryDark,
     fontFamily: theme.fonts.family.semibold,
     fontSize: theme.fonts.size.lg,
   },
-  // bloco de textos com mesma altura do avatar
   contentBase: {
     flex: 1,
     height: AVATAR,
   },
-  // quando tem idade: alinha no topo
   contentTop: {
     justifyContent: 'flex-start',
     paddingTop: 0,
     gap: theme.spacing.xs,
   },
-  // quando não tem idade: centraliza verticalmente
   contentCenter: {
     justifyContent: 'center',
   },
   name: {
     color: theme.colors.text,
-    fontSize: theme.fonts.size.md,                // menor
+    fontSize: theme.fonts.size.md,
     fontFamily: theme.fonts.family.bold,
   },
   age: {

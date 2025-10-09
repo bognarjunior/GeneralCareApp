@@ -5,7 +5,7 @@ import CustomText from '@/components/CustomText';
 import theme from '@/theme';
 import styles from './styles';
 import type { PersonListItemProps } from '@/types/components/PersonListItem';
-import { getInitials } from '@/utils/name';
+import { getInitials } from '@/utils/formatters/person';
 
 const PersonListItem: React.FC<PersonListItemProps> = ({
   fullName,
