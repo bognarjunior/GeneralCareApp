@@ -9,7 +9,7 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       },
     ],
-    '@babel/plugin-transform-export-namespace-from', // adiciona este
-    'react-native-worklets/plugin', // mantenha por último
+    '@babel/plugin-transform-export-namespace-from',
+    'react-native-worklets/plugin',
   ],
 };

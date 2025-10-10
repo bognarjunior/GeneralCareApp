@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { View, ScrollView, RefreshControl } from 'react-native';
+// src/screens/People/List/index.tsx
+import React, { useMemo, useRef, useState, createRef } from 'react';
+import { View, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
@@ -11,6 +12,13 @@ import PersonListItem from '@/components/PersonListItem';
 import FormTextField from '@/components/FormTextField';
 import theme from '@/theme';
 import { getAgeLabel } from '@/utils/formatters/person';
+import Modal from '@/components/Modal';
+import Skeleton from '@/components/Skeleton';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+// Swipeable (API nova)
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+import type { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'PeopleList'>;
 
@@ -18,8 +26,27 @@ const PeopleListScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const { container, content, searchBox, listArea, spacer } = styles;
 
-  const { people, loading, refresh } = usePeople();
+  const { people, loading, refresh, removePerson } = usePeople();
   const [query, setQuery] = useState('');
+
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [targetId, setTargetId] = useState<string | null>(null);
+  const [targetName, setTargetName] = useState<string>('');
+  const [deleting, setDeleting] = useState(false);
+
+  // Refs por item (tipado como RefObject, que é o que o Swipeable espera)
+  const rowRefs = useRef(
+    new Map<string, React.RefObject<SwipeableMethods | null>>()
+  );
+
+  const getRowRef = (id: string): React.RefObject<SwipeableMethods | null> => {
+    let ref = rowRefs.current.get(id);
+    if (!ref) {
+      ref = createRef<SwipeableMethods | null>();
+      rowRefs.current.set(id, ref);
+    }
+    return ref;
+  };
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -29,6 +56,40 @@ const PeopleListScreen: React.FC = () => {
 
   const showEmpty = !loading && people.length === 0 && query.trim().length === 0;
   const showNoMatch = !loading && people.length > 0 && filtered.length === 0;
+
+  function openConfirm(id: string, name: string) {
+    // Fecha swipe aberto desta linha (se houver) antes de abrir o modal
+    rowRefs.current.get(id)?.current?.close?.();
+    setTargetId(id);
+    setTargetName(name);
+    setConfirmVisible(true);
+  }
+
+  async function handleConfirmDelete() {
+    if (!targetId) return;
+    try {
+      setDeleting(true);
+      await removePerson(targetId);
+      setConfirmVisible(false);
+    } finally {
+      setDeleting(false);
+      setTargetId(null);
+      setTargetName('');
+    }
+  }
+
+  const renderRightActions = (id: string, name: string) => (
+    <View style={styles.rightActions}>
+      <TouchableOpacity
+        accessibilityRole="button"
+        onPress={() => openConfirm(id, name)}
+        style={styles.deleteBtn}
+        testID={`delete-${id}`}
+      >
+        <Icon name="delete" size={theme.sizes.icon.md} color={theme.colors.white} />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <View style={container}>
@@ -41,7 +102,17 @@ const PeopleListScreen: React.FC = () => {
           containerStyle={styles.search}
         />
       </View>
-      {showEmpty ? (
+
+      {loading && people.length === 0 ? (
+        <ScrollView contentContainerStyle={[content, listArea]} showsVerticalScrollIndicator={false}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <View key={`sk-${i}`} style={i < 7 ? styles.itemSpacing : undefined}>
+              <Skeleton height={72} />
+            </View>
+          ))}
+          <View style={spacer} />
+        </ScrollView>
+      ) : showEmpty ? (
         <EmptyState
           message="Não existem pessoas cadastradas!"
           intro="Comece a utilizar o app e tenha ferramentas completas para o gerenciamento inteligente da sua saúde."
@@ -53,11 +124,7 @@ const PeopleListScreen: React.FC = () => {
           }}
         />
       ) : showNoMatch ? (
-        <EmptyState
-          message="Nenhuma pessoa encontrada"
-          intro="Tente ajustar sua busca."
-          action={undefined}
-        />
+        <EmptyState message="Nenhuma pessoa encontrada" intro="Tente ajustar sua busca." action={undefined} />
       ) : (
         <ScrollView
           contentContainerStyle={[content, listArea]}
@@ -74,18 +141,37 @@ const PeopleListScreen: React.FC = () => {
           }
         >
           {filtered.map((p, idx) => (
-            <PersonListItem
-              key={p.id}
-              fullName={p.fullName}
-              ageLabel={getAgeLabel(p.birthDate)}
-              avatarUri={p.avatarUri}
-              onPress={() => navigation.navigate('PersonDetailStack', { personId: p.id })}
-              style={idx < filtered.length - 1 ? styles.itemSpacing : undefined}
-            />
+            <View key={p.id} style={idx < filtered.length - 1 ? styles.itemSpacing : undefined}>
+              <Swipeable
+                ref={getRowRef(p.id)}
+                overshootRight={false}
+                renderRightActions={() => renderRightActions(p.id, p.fullName)}
+              >
+                <PersonListItem
+                  fullName={p.fullName}
+                  ageLabel={getAgeLabel(p.birthDate)}
+                  avatarUri={p.avatarUri}
+                  onPress={() => navigation.navigate('PersonDetailStack', { personId: p.id })}
+                />
+              </Swipeable>
+            </View>
           ))}
           <View style={spacer} />
         </ScrollView>
       )}
+
+      <Modal
+        visible={confirmVisible}
+        title="Excluir pessoa"
+        message={`Tem certeza que deseja excluir "${targetName}"? Essa ação não poderá ser desfeita.`}
+        confirmLabel="Excluir"
+        cancelLabel="Cancelar"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmVisible(false)}
+        destructive
+        loading={deleting}
+        testID="delete-confirm-modal"
+      />
     </View>
   );
 };

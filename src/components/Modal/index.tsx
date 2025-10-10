@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal as RNModal, View } from 'react-native';
+import { Modal as RNModal, View, Platform } from 'react-native';
 import styles from './styles';
 import type { ModalProps } from '@/types/components/Modal';
 import CustomText from '@/components/CustomText';
@@ -17,43 +17,62 @@ const Modal: React.FC<ModalProps> = ({
   loading = false,
   testID = 'confirm-modal',
 }) => {
+  const hasCancel = !!onCancel;
+  const hasConfirm = !!onConfirm;
+  const singleButton = hasConfirm && !hasCancel;
+
   return (
     <RNModal
       visible={visible}
       transparent
       animationType="fade"
       onRequestClose={onCancel}
+      statusBarTranslucent={Platform.OS === 'android'}
+      presentationStyle="overFullScreen"
     >
       <View style={styles.overlay} testID={`${testID}-overlay`}>
         <View style={styles.card} testID={testID}>
           {!!title && (
-            <CustomText variant="title" weight="bold" style={styles.title} testID={`${testID}-title`}>
+            <CustomText
+              variant="title"
+              weight="bold"
+              style={styles.title}
+              testID={`${testID}-title`}
+            >
               {title}
             </CustomText>
           )}
 
           {!!message && (
-            <CustomText variant="body" color="textSecondary" style={styles.message} testID={`${testID}-message`}>
+            <CustomText
+              variant="body"
+              color="textSecondary"
+              style={styles.message}
+              testID={`${testID}-message`}
+            >
               {message}
             </CustomText>
           )}
 
           <View style={styles.actions}>
-            {!!onCancel && (
+            {hasCancel && (
               <Button
                 label={cancelLabel}
                 onPress={onCancel}
                 disabled={loading}
                 testID={`${testID}-cancel`}
+                style={!singleButton ? styles.actionButton : undefined}
               />
             )}
-            {!!onConfirm && (
+
+            {hasConfirm && (
               <Button
                 label={confirmLabel}
                 variant={destructive ? 'danger' : 'primary'}
                 onPress={onConfirm}
                 disabled={loading}
                 testID={`${testID}-confirm`}
+                style={singleButton ? styles.actionButtonFull : styles.actionButton}
               />
             )}
           </View>

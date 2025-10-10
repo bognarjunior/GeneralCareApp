@@ -26,7 +26,15 @@ const styles = StyleSheet.create({
   actions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    alignItems: 'center',
     gap: theme.spacing.sm,
+  },
+  actionButton: {
+    flexGrow: 1,
+    flexBasis: 0,
+  },
+  actionButtonFull: {
+    alignSelf: 'stretch',
   },
 });
 

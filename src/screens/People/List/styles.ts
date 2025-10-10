@@ -35,6 +35,27 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.family.bold,
     marginBottom: theme.spacing.lg,
   },
+
+  // --- Swipe / Delete (novos) ---
+  rightActions: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'flex-end',
+  },
+  deleteBtn: {
+    width: 80,
+    backgroundColor: theme.colors.danger,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: theme.radius.md,
+    marginLeft: theme.spacing.sm,
+  },
+
+  // --- Skeleton (novos) ---
+  skeletonItem: {
+    height: 72,
+    borderRadius: theme.radius.lg,
+  },
 });
 
 export default styles;
