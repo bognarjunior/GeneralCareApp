@@ -15,9 +15,10 @@ import type { PersonCreateSchema } from '@/utils/validators/person';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
-import Toast from '@/components/Toast';
 import FormAvatarField from '@/components/FormAvatarField';
 import { isValidDDMMYYYY } from '@/utils/date';
+import Modal from '@/components/Modal';
+import Skeleton from '@/components/Skeleton';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 type FormState = PersonCreateSchema & { avatarUri?: string };
@@ -37,7 +38,17 @@ const PersonFormScreen: React.FC = () => {
     Partial<Record<keyof PersonCreateSchema, string>>
   >({});
   const [submitting, setSubmitting] = useState(false);
-  const [toast, setToast] = useState<{ type: 'success' | 'error'; msg: string } | null>(null);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalState, setModalState] = useState<{
+    title?: string;
+    message?: string;
+    confirmLabel?: string;
+    cancelLabel?: string;
+    destructive?: boolean;
+    onConfirm?: () => void;
+    onCancel?: () => void;
+  }>({});
 
   const canSave = useMemo(() => {
     if (form.fullName.trim().length < 2) return false;
@@ -53,6 +64,15 @@ const PersonFormScreen: React.FC = () => {
     if (key === 'fullName' || key === 'birthDate' || key === 'notes') {
       setErrors(prev => ({ ...prev, [key]: undefined }));
     }
+  }
+
+  function openModal(cfg: typeof modalState) {
+    setModalState(cfg);
+    setModalVisible(true);
+  }
+  function closeModal() {
+    setModalVisible(false);
+    setModalState({});
   }
 
   async function handleSubmit() {
@@ -73,7 +93,13 @@ const PersonFormScreen: React.FC = () => {
       });
       setErrors(fieldErrors);
       setSubmitting(false);
-      setToast({ type: 'error', msg: 'Revise os campos destacados.' });
+
+      openModal({
+        title: 'Campos inválidos',
+        message: 'Revise os campos destacados.',
+        confirmLabel: 'OK',
+        onConfirm: () => closeModal(),
+      });
       return;
     }
 
@@ -82,14 +108,41 @@ const PersonFormScreen: React.FC = () => {
         ...parsed.data,
         avatarUri: form.avatarUri || undefined,
       });
-      setToast({ type: 'success', msg: 'Pessoa cadastrada com sucesso!' });
-      navigation.navigate('PersonDetailStack', { personId: created.id });
+
+      openModal({
+        title: 'Sucesso',
+        message: 'Pessoa cadastrada com sucesso!',
+        confirmLabel: 'Ver detalhes',
+        onConfirm: () => {
+          closeModal();
+          navigation.navigate('PersonDetailStack', { personId: created.id });
+        },
+      });
     } catch (e) {
       console.error('Falha ao criar pessoa:', e);
-      setToast({ type: 'error', msg: 'Não foi possível salvar. Tente novamente.' });
+      openModal({
+        title: 'Erro',
+        message: 'Não foi possível salvar. Tente novamente.',
+        confirmLabel: 'OK',
+        onConfirm: () => closeModal(),
+      });
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function handleCancel() {
+    openModal({
+      title: 'Cancelar cadastro?',
+      message: 'Deseja realmente cancelar e voltar?',
+      cancelLabel: 'Não',
+      confirmLabel: 'Sim',
+      onCancel: () => closeModal(),
+      onConfirm: () => {
+        closeModal();
+        navigation.goBack();
+      },
+    });
   }
 
   return (
@@ -148,19 +201,23 @@ const PersonFormScreen: React.FC = () => {
             />
 
             <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-              <Button
-                variant="primary"
-                label="Salvar"
-                gradient
-                onPress={handleSubmit}
-                disabled={!canSave || submitting}
-                testID="btn-save"
-              />
+              {submitting ? (
+                <Skeleton height={theme.spacing.xl} style={styles.skeletonButton} testID="save-skeleton" />
+              ) : (
+                <Button
+                  variant="primary"
+                  label="Salvar"
+                  gradient
+                  onPress={handleSubmit}
+                  disabled={!canSave}
+                  testID="btn-save"
+                />
+              )}
               <Button
                 variant="danger"
                 label="Cancelar"
                 gradient
-                onPress={() => navigation.goBack()}
+                onPress={handleCancel}
                 testID="btn-cancel"
               />
             </Button.Group>
@@ -168,14 +225,16 @@ const PersonFormScreen: React.FC = () => {
         </Surface>
       </ScrollView>
 
-      <Toast
-        visible={!!toast}
-        variant={toast?.type ?? 'success'}
-        message={toast?.msg ?? ''}
-        onHide={() => setToast(null)}
-        position="bottom"
-        offset={theme.spacing.xl}
-        duration={1200}
+      <Modal
+        visible={modalVisible}
+        title={modalState.title}
+        message={modalState.message}
+        confirmLabel={modalState.confirmLabel}
+        cancelLabel={modalState.cancelLabel}
+        destructive={modalState.destructive}
+        onConfirm={modalState.onConfirm}
+        onCancel={modalState.onCancel}
+        testID="confirm-modal"
       />
     </Container>
   );
