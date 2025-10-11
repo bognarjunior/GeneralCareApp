@@ -12,6 +12,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   backgroundColor = theme.colors.primary,
   iconColor = theme.colors.white,
   textColor = theme.colors.white,
+  iconSize = theme.sizes.icon.md,
 }) => {
   const containerStyle =
     backgroundColor === 'transparent' ? styles.containerFlat : styles.container;
@@ -24,7 +25,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     >
       <Icon
         name={iconName}
-        size={20}
+        size={iconSize}
         color={iconColor}
         style={styles.icon}
         testID="icon-button-icon"

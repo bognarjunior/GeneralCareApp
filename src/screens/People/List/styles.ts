@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
   },
   itemSpacing: {
     marginBottom: theme.spacing.sm,
+    backgroundColor: theme.colors.danger,
+    borderRadius: theme.radius.lg,
+    borderColor: theme.colors.background,
   },
   label: {
     color: theme.colors.text,
@@ -35,8 +38,6 @@ const styles = StyleSheet.create({
     fontFamily: theme.fonts.family.bold,
     marginBottom: theme.spacing.lg,
   },
-
-  // --- Swipe / Delete (novos) ---
   rightActions: {
     flexDirection: 'row',
     alignItems: 'stretch',
@@ -44,14 +45,11 @@ const styles = StyleSheet.create({
   },
   deleteBtn: {
     width: 80,
-    backgroundColor: theme.colors.danger,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: theme.radius.md,
+    borderRadius: theme.radius.lg,
     marginLeft: theme.spacing.sm,
   },
-
-  // --- Skeleton (novos) ---
   skeletonItem: {
     height: 72,
     borderRadius: theme.radius.lg,

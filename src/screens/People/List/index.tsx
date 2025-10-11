@@ -1,6 +1,5 @@
-// src/screens/People/List/index.tsx
 import React, { useMemo, useRef, useState, createRef } from 'react';
-import { View, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
+import { View, ScrollView, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
@@ -14,11 +13,10 @@ import theme from '@/theme';
 import { getAgeLabel } from '@/utils/formatters/person';
 import Modal from '@/components/Modal';
 import Skeleton from '@/components/Skeleton';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Swipeable (API nova)
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import type { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
+import IconButton from '@/components/IconButton';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'PeopleList'>;
 
@@ -34,7 +32,6 @@ const PeopleListScreen: React.FC = () => {
   const [targetName, setTargetName] = useState<string>('');
   const [deleting, setDeleting] = useState(false);
 
-  // Refs por item (tipado como RefObject, que é o que o Swipeable espera)
   const rowRefs = useRef(
     new Map<string, React.RefObject<SwipeableMethods | null>>()
   );
@@ -58,7 +55,6 @@ const PeopleListScreen: React.FC = () => {
   const showNoMatch = !loading && people.length > 0 && filtered.length === 0;
 
   function openConfirm(id: string, name: string) {
-    // Fecha swipe aberto desta linha (se houver) antes de abrir o modal
     rowRefs.current.get(id)?.current?.close?.();
     setTargetId(id);
     setTargetName(name);
@@ -80,14 +76,16 @@ const PeopleListScreen: React.FC = () => {
 
   const renderRightActions = (id: string, name: string) => (
     <View style={styles.rightActions}>
-      <TouchableOpacity
-        accessibilityRole="button"
-        onPress={() => openConfirm(id, name)}
-        style={styles.deleteBtn}
-        testID={`delete-${id}`}
-      >
-        <Icon name="delete" size={theme.sizes.icon.md} color={theme.colors.white} />
-      </TouchableOpacity>
+      <View style={[styles.deleteBtn]} testID={`delete-${id}`}>
+        <IconButton
+          iconName="delete"
+          onPress={() => openConfirm(id, name)}
+          backgroundColor="transparent"
+          iconColor={theme.colors.white}
+          textColor={theme.colors.white}
+          iconSize={theme.sizes.icon.md}
+        />
+      </View>
     </View>
   );
 
@@ -141,7 +139,7 @@ const PeopleListScreen: React.FC = () => {
           }
         >
           {filtered.map((p, idx) => (
-            <View key={p.id} style={idx < filtered.length - 1 ? styles.itemSpacing : undefined}>
+            <View key={p.id} style={idx < filtered.length ? styles.itemSpacing : undefined}>
               <Swipeable
                 ref={getRowRef(p.id)}
                 overshootRight={false}
@@ -153,6 +151,7 @@ const PeopleListScreen: React.FC = () => {
                   avatarUri={p.avatarUri}
                   onPress={() => navigation.navigate('PersonDetailStack', { personId: p.id })}
                 />
+                
               </Swipeable>
             </View>
           ))}

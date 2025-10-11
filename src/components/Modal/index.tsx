@@ -14,6 +14,7 @@ const Modal: React.FC<ModalProps> = ({
   onConfirm,
   onCancel,
   destructive = false,
+  cancelDestructive = false,
   loading = false,
   testID = 'confirm-modal',
 }) => {
@@ -60,6 +61,7 @@ const Modal: React.FC<ModalProps> = ({
                 label={cancelLabel}
                 onPress={onCancel}
                 disabled={loading}
+                variant={cancelDestructive ? 'danger' : 'primary'}
                 testID={`${testID}-cancel`}
                 style={!singleButton ? styles.actionButton : undefined}
               />

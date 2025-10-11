@@ -7,6 +7,7 @@ export interface ModalProps {
   onConfirm?: () => void;
   onCancel?: () => void;
   destructive?: boolean;
+  cancelDestructive?: boolean;
   loading?: boolean;
   testID?: string;
 }

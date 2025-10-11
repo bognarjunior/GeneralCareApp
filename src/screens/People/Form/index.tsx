@@ -46,6 +46,7 @@ const PersonFormScreen: React.FC = () => {
     confirmLabel?: string;
     cancelLabel?: string;
     destructive?: boolean;
+    cancelDestructive?: boolean;
     onConfirm?: () => void;
     onCancel?: () => void;
   }>({});
@@ -137,6 +138,7 @@ const PersonFormScreen: React.FC = () => {
       message: 'Deseja realmente cancelar e voltar?',
       cancelLabel: 'Não',
       confirmLabel: 'Sim',
+      cancelDestructive: true,
       onCancel: () => closeModal(),
       onConfirm: () => {
         closeModal();
@@ -234,6 +236,7 @@ const PersonFormScreen: React.FC = () => {
         destructive={modalState.destructive}
         onConfirm={modalState.onConfirm}
         onCancel={modalState.onCancel}
+        cancelDestructive={modalState.cancelDestructive}
         testID="confirm-modal"
       />
     </Container>
