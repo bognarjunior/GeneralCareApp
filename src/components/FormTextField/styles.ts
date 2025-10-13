@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
     paddingRight: PAD_H,
     paddingVertical: PAD_V,
     justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   fieldError: {
     borderColor: theme.colors.danger,
@@ -54,6 +56,18 @@ const styles = StyleSheet.create({
 
   placeholderColor: {
     color: theme.colors.text,
+  },
+  labelRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  requiredMark: {
+    marginLeft: theme.spacing.xs,
+    color: theme.colors.danger,
+    fontFamily: theme.fonts.family.bold,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.sm,
   },
 });
 

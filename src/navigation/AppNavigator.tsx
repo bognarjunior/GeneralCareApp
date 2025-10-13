@@ -28,8 +28,22 @@ const AppNavigator = () => (
         ),
       }}
     />
+    <Stack.Screen
+      name="PeopleRegister"
+      component={PeopleFormScreen}
+      options={{
+        headerShown: true,
+        header: ({ navigation }) => (
+          <Header
+            title="GeneralApp"
+            titleVariant="title"
+            showBack={navigation.canGoBack()}
+            onBackPress={() => navigation.goBack()}
+          />
+        ),
+      }}
+    />
 
-    <Stack.Screen name="PeopleRegister" component={PeopleFormScreen} />
     <Stack.Screen name="PersonDetailStack" component={PersonalDrawerNavigator} />
   </Stack.Navigator>
 );

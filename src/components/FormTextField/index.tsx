@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, { useMemo } from 'react';
 import { View, TextInput, Platform } from 'react-native';
 import CustomText from '@/components/CustomText';
@@ -8,12 +7,15 @@ import type { FormTextFieldProps } from '@/types/components/FormTextField';
 
 const FormTextField: React.FC<FormTextFieldProps> = ({
   label,
+  required,
+  leftIcon,
   value,
   onChangeText,
   error,
   containerStyle,
   multiline,
   numberOfLines,
+  inputStyle,
   ...inputProps
 }) => {
   const isMultiline = !!(multiline || (numberOfLines && numberOfLines > 1));
@@ -28,9 +30,16 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
   return (
     <View style={[styles.container, containerStyle]}>
       {!!label && (
-        <CustomText variant="caption" color="text" style={styles.label}>
-          {label}
-        </CustomText>
+        <View style={styles.labelRow}>
+          <CustomText variant="caption" color="text" style={[styles.label]}>
+            {label}
+          </CustomText>
+          {required ? (
+            <CustomText variant="caption" style={styles.requiredMark}>
+              *
+            </CustomText>
+          ) : null}
+        </View>
       )}
 
       <View
@@ -45,6 +54,8 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
           !!error && styles.fieldError,
         ]}
       >
+        {!!leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
+
         <TextInput
           value={value}
           onChangeText={onChangeText}
@@ -52,6 +63,7 @@ const FormTextField: React.FC<FormTextFieldProps> = ({
             styles.input,
             isMultiline && styles.inputMultiline,
             Platform.OS === 'android' && !isMultiline ? styles.inputSingleAndroid : null,
+            inputStyle,
           ]}
           placeholderTextColor={styles.placeholderColor.color}
           multiline={isMultiline}

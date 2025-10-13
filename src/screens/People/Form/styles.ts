@@ -33,11 +33,6 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: theme.spacing.lg,
   },
-  
-  skeletonButton: {
-    width: '100%',
-    borderRadius: theme.radius.md,
-  },
 });
 
 export default styles;

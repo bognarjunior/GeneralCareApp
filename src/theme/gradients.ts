@@ -6,7 +6,7 @@ const gradients = {
     ghost: ['transparent', 'transparent'],
   },
   surface: {
-    soft: ['#FFFFFF', '#D7FCFC'], 
+    soft: ['#B3E5FC', '#E0F7FA'],
   },
 };
 

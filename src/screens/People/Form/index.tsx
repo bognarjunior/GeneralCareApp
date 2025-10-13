@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Container from '@/components/Container';
@@ -18,7 +18,7 @@ import type { RootStackParamList } from '@/types/navigation';
 import FormAvatarField from '@/components/FormAvatarField';
 import { isValidDDMMYYYY } from '@/utils/date';
 import Modal from '@/components/Modal';
-import Skeleton from '@/components/Skeleton';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 type FormState = PersonCreateSchema & { avatarUri?: string };
@@ -34,9 +34,7 @@ const PersonFormScreen: React.FC = () => {
     notes: undefined,
     avatarUri: undefined,
   });
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof PersonCreateSchema, string>>
-  >({});
+  const [errors, setErrors] = useState<Partial<Record<keyof PersonCreateSchema, string>>>({});
   const [submitting, setSubmitting] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,6 +49,15 @@ const PersonFormScreen: React.FC = () => {
     onCancel?: () => void;
   }>({});
 
+  const openModal = useCallback((cfg: typeof modalState) => {
+    setModalState(cfg);
+    setModalVisible(true);
+  }, []);
+  const closeModal = useCallback(() => {
+    setModalVisible(false);
+    setModalState({});
+  }, []);
+
   const canSave = useMemo(() => {
     if (form.fullName.trim().length < 2) return false;
     if (form.birthDate && !isValidDDMMYYYY(form.birthDate)) return false;
@@ -60,20 +67,10 @@ const PersonFormScreen: React.FC = () => {
   function setField<K extends keyof PersonCreateSchema>(key: K, value: PersonCreateSchema[K]): void;
   function setField(key: 'avatarUri', value: string | undefined): void;
   function setField(key: any, value: any) {
-    setForm(prev => ({ ...prev, [key]: value }));
-
+    setForm((prev) => ({ ...prev, [key]: value }));
     if (key === 'fullName' || key === 'birthDate' || key === 'notes') {
-      setErrors(prev => ({ ...prev, [key]: undefined }));
+      setErrors((prev) => ({ ...prev, [key]: undefined }));
     }
-  }
-
-  function openModal(cfg: typeof modalState) {
-    setModalState(cfg);
-    setModalVisible(true);
-  }
-  function closeModal() {
-    setModalVisible(false);
-    setModalState({});
   }
 
   async function handleSubmit() {
@@ -88,7 +85,7 @@ const PersonFormScreen: React.FC = () => {
 
     if (!parsed.success) {
       const fieldErrors: Partial<Record<keyof PersonCreateSchema, string>> = {};
-      parsed.error.issues.forEach(issue => {
+      parsed.error.issues.forEach((issue) => {
         const k = issue.path[0] as keyof PersonCreateSchema;
         if (!fieldErrors[k]) fieldErrors[k] = issue.message;
       });
@@ -119,8 +116,7 @@ const PersonFormScreen: React.FC = () => {
           navigation.navigate('PersonDetailStack', { personId: created.id });
         },
       });
-    } catch (e) {
-      console.error('Falha ao criar pessoa:', e);
+    } catch {
       openModal({
         title: 'Erro',
         message: 'Não foi possível salvar. Tente novamente.',
@@ -130,21 +126,6 @@ const PersonFormScreen: React.FC = () => {
     } finally {
       setSubmitting(false);
     }
-  }
-
-  function handleCancel() {
-    openModal({
-      title: 'Cancelar cadastro?',
-      message: 'Deseja realmente cancelar e voltar?',
-      cancelLabel: 'Não',
-      confirmLabel: 'Sim',
-      cancelDestructive: true,
-      onCancel: () => closeModal(),
-      onConfirm: () => {
-        closeModal();
-        navigation.goBack();
-      },
-    });
   }
 
   return (
@@ -157,11 +138,7 @@ const PersonFormScreen: React.FC = () => {
           { paddingBottom: insets.bottom + theme.spacing.xl },
         ]}
       >
-        <CustomText variant="title" weight="bold" style={styles.title}>
-          Nova pessoa
-        </CustomText>
-
-        <CustomText variant="subtitle" color="textSecondary" style={styles.subtitle}>
+        <CustomText variant="subtitle" weight="semibold" color="text" style={styles.subtitle}>
           Preencha suas informações para começar a usar o app.
         </CustomText>
 
@@ -169,23 +146,25 @@ const PersonFormScreen: React.FC = () => {
           <View style={styles.formGroup}>
             <FormAvatarField
               value={form.avatarUri}
-              onChange={uri => setField('avatarUri', uri)}
+              onChange={(uri) => setField('avatarUri', uri)}
             />
 
             <FormTextField
-              label="Nome *"
+              label="Nome"
+              required
               placeholder="Ex.: João da Silva"
               autoCapitalize="words"
               returnKeyType="next"
               value={form.fullName}
-              onChangeText={t => setField('fullName', t)}
+              onChangeText={(t) => setField('fullName', t)}
               error={errors.fullName}
+              leftIcon={<Icon name="person-outline" size={20} color={theme.colors.text} />}
             />
 
             <FormDateField
               label="Data de nascimento"
               value={form.birthDate ?? ''}
-              onChangeText={t => setField('birthDate', t)}
+              onChangeText={(t) => setField('birthDate', t)}
               error={errors.birthDate}
               testID="birthdate"
             />
@@ -196,31 +175,21 @@ const PersonFormScreen: React.FC = () => {
               multiline
               numberOfLines={5}
               value={form.notes ?? ''}
-              onChangeText={t => setField('notes', t)}
+              onChangeText={(t) => setField('notes', t)}
               error={errors.notes}
               textAlignVertical="top"
               inputStyle={styles.notesInput}
+              leftIcon={<Icon name="notes" size={20} color={theme.colors.text} />}
             />
 
             <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-              {submitting ? (
-                <Skeleton height={theme.spacing.xl} style={styles.skeletonButton} testID="save-skeleton" />
-              ) : (
-                <Button
-                  variant="primary"
-                  label="Salvar"
-                  gradient
-                  onPress={handleSubmit}
-                  disabled={!canSave}
-                  testID="btn-save"
-                />
-              )}
               <Button
-                variant="danger"
-                label="Cancelar"
+                variant="primary"
+                label="Salvar"
                 gradient
-                onPress={handleCancel}
-                testID="btn-cancel"
+                onPress={handleSubmit}
+                disabled={!canSave || submitting}
+                testID="btn-save"
               />
             </Button.Group>
           </View>
@@ -234,9 +203,9 @@ const PersonFormScreen: React.FC = () => {
         confirmLabel={modalState.confirmLabel}
         cancelLabel={modalState.cancelLabel}
         destructive={modalState.destructive}
+        cancelDestructive={modalState.cancelDestructive}
         onConfirm={modalState.onConfirm}
         onCancel={modalState.onCancel}
-        cancelDestructive={modalState.cancelDestructive}
         testID="confirm-modal"
       />
     </Container>
