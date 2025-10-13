@@ -2,32 +2,81 @@ import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: theme.spacing.lg,
-    gap: theme.spacing.md,
+  content: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: theme.spacing.xl,
+    paddingTop: theme.spacing.xxxl,
   },
-  icon: {
+
+  cardWrap: {
+    marginBottom: theme.spacing.lg,
+    alignItems: 'stretch',
+  },
+
+  card: {
+    borderRadius: theme.radius.lg,
+  },
+
+  avatarWrap: {
+    position: 'absolute',
+    top: -48,
+    alignSelf: 'center',
+    borderWidth: 3,
+    borderColor: theme.colors.background,
+    overflow: 'hidden',
+    zIndex: 2,
+  },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
+  },
+  avatarFallback: {
+    flex: 1,
+    backgroundColor: theme.colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarText: {
+    color: theme.colors.white,
+    fontSize: theme.fonts.size.lg,
+  },
+
+  name: {
+    color: theme.colors.white,
+    fontSize: theme.fonts.size.xl,
+    textAlign: 'center',
+    marginBottom: theme.spacing.xs,
+  },
+  age: {
+    color: theme.colors.white,
+    opacity: 0.9,
+    textAlign: 'center',
     marginBottom: theme.spacing.md,
   },
-  title: {
+  sectionTitle: {
+    color: theme.colors.white,
     fontSize: theme.fonts.size.xl,
-    fontFamily: theme.fonts.family.bold,
-    color: theme.colors.text,
-    marginBottom: theme.spacing.sm,
+    marginTop: theme.spacing.md,
+    marginBottom: theme.spacing.xs,
   },
-  info: {
-    fontSize: theme.fonts.size.lg,
-    fontFamily: theme.fonts.family.medium,
-    color: theme.colors.text,
-    marginBottom: theme.spacing.lg,
+  obs: {
+    color: theme.colors.white,
   },
-  navGroup: {
+
+  actions: {
     gap: theme.spacing.sm,
-    width: '100%',
+  },
+  actionBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.primary,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.md,
+    borderRadius: theme.radius.md,
+    gap: theme.spacing.sm,
+  },
+  actionLabel: {
+    color: theme.colors.white,
   },
 });
 

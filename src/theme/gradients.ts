@@ -7,6 +7,7 @@ const gradients = {
   },
   surface: {
     soft: ['#B3E5FC', '#E0F7FA'],
+    emphasis: ['#2553f7', '#688aef'],
   },
 };
 
