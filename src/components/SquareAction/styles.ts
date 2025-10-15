@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     paddingHorizontal: theme.spacing.md,
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     gap: theme.spacing.sm,
   },
   iconWrap: { marginBottom: theme.spacing.xs },
