@@ -1,4 +1,3 @@
-// src/components/SquareAction/styles.ts
 import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 

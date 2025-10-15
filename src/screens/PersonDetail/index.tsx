@@ -10,7 +10,7 @@ import styles from './styles';
 import theme from '@/theme';
 import { usePeople } from '@/hooks/usePeople';
 import { getAgeLabel, getInitials } from '@/utils/formatters/person';
-import SquareAction from '@/components/SquareAction';  // << novo
+import SquareAction from '@/components/SquareAction';
 
 type RouteP = RouteProp<PersonStackParamList, 'PersonDetail'>;
 
