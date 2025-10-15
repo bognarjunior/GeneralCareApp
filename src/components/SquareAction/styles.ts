@@ -6,6 +6,9 @@ const styles = StyleSheet.create({
     borderRadius: theme.radius.md,
     overflow: 'hidden',
   },
+  filler: {
+    flex: 1,
+  },
   gradient: {
     ...StyleSheet.absoluteFillObject,
     borderRadius: theme.radius.md,
@@ -17,9 +20,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     gap: theme.spacing.sm,
   },
-  iconWrap: {
-    marginBottom: theme.spacing.xs,
-  },
+  iconWrap: { marginBottom: theme.spacing.xs },
   label: {
     color: theme.colors.white,
     textAlign: 'center',

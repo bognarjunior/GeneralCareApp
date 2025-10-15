@@ -25,6 +25,7 @@ const SquareAction: React.FC<SquareActionProps> = ({
       onPress={onPress}
       testID={testID}
     >
+      <View style={styles.filler} />
       <LinearGradient
         colors={colors}
         start={{ x: 0, y: 0 }}
