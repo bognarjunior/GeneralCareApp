@@ -6,11 +6,11 @@ import Container from '@/components/Container';
 import Header from '@/components/Header';
 import Surface from '@/components/Surface';
 import CustomText from '@/components/CustomText';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
 import theme from '@/theme';
 import { usePeople } from '@/hooks/usePeople';
 import { getAgeLabel, getInitials } from '@/utils/formatters/person';
+import SquareAction from '@/components/SquareAction';  // << novo
 
 type RouteP = RouteProp<PersonStackParamList, 'PersonDetail'>;
 
@@ -61,11 +61,7 @@ const PersonDetailScreen: React.FC = () => {
                 {person?.fullName ?? '—'}
               </CustomText>
 
-              {!!age && (
-                <CustomText style={styles.age}>
-                  {age}
-                </CustomText>
-              )}
+              {!!age && <CustomText style={styles.age}>{age}</CustomText>}
 
               <CustomText weight="bold" style={styles.sectionTitle}>
                 Observações
@@ -79,30 +75,42 @@ const PersonDetailScreen: React.FC = () => {
         </View>
 
         <View style={styles.actions}>
-          <View style={styles.actionBtn}>
-            <Icon name="medical-services" size={20} color={theme.colors.white} />
-            <CustomText weight="medium" style={styles.actionLabel}>Medicamentos</CustomText>
-          </View>
-          <View style={styles.actionBtn}>
-            <Icon name="monitor-heart" size={20} color={theme.colors.white} />
-            <CustomText weight="medium" style={styles.actionLabel}>Pressão Arterial</CustomText>
-          </View>
-          <View style={styles.actionBtn}>
-            <Icon name="bloodtype" size={20} color={theme.colors.white} />
-            <CustomText weight="medium" style={styles.actionLabel}>Glicemia</CustomText>
-          </View>
-          <View style={styles.actionBtn}>
-            <Icon name="view-timeline" size={20} color={theme.colors.white} />
-            <CustomText weight="medium" style={styles.actionLabel}>Medidas (Peso / Altura)</CustomText>
-          </View>
-          <View style={styles.actionBtn}>
-            <Icon name="event-note" size={20} color={theme.colors.white} />
-            <CustomText weight="medium" style={styles.actionLabel}>Consultas Médicas</CustomText>
-          </View>
-          <View style={styles.actionBtn}>
-            <Icon name="insights" size={20} color={theme.colors.white} />
-            <CustomText weight="medium" style={styles.actionLabel}>Gráficos</CustomText>
-          </View>
+          <SquareAction
+            style={styles.actionTile}
+            iconName="medical-services"
+            label="Medicamentos"
+            colors={theme.gradients.buttons.medications}
+          />
+          <SquareAction
+            style={styles.actionTile}
+            iconName="monitor-heart"
+            label="Pressão Arterial"
+            colors={theme.gradients.buttons.bloodPressure}
+          />
+          <SquareAction
+            style={styles.actionTile}
+            iconName="bloodtype"
+            label="Glicemia"
+            colors={theme.gradients.buttons.glycemia}
+          />
+          <SquareAction
+            style={styles.actionTile}
+            iconName="view-timeline"
+            label="Medidas (Peso / Altura)"
+            colors={theme.gradients.buttons.measurements}
+          />
+          <SquareAction
+            style={styles.actionTile}
+            iconName="event-note"
+            label="Consultas Médicas"
+            colors={theme.gradients.buttons.appointments}
+          />
+          <SquareAction
+            style={styles.actionTile}
+            iconName="insights"
+            label="Gráficos"
+            colors={theme.gradients.buttons.charts}
+          />
         </View>
       </ScrollView>
     </Container>

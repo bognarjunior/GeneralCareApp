@@ -7,16 +7,13 @@ const styles = StyleSheet.create({
     paddingBottom: theme.spacing.xl,
     paddingTop: theme.spacing.xxxl,
   },
-
-  cardWrap: {
-    marginBottom: theme.spacing.lg,
-    alignItems: 'stretch',
+  cardWrap: { 
+    marginBottom: theme.spacing.lg, 
+    alignItems: 'stretch'
   },
-
-  card: {
-    borderRadius: theme.radius.lg,
+  card: { 
+    borderRadius: theme.radius.lg
   },
-
   avatarWrap: {
     position: 'absolute',
     top: -48,
@@ -26,57 +23,50 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     zIndex: 2,
   },
-  avatarImg: {
-    width: '100%',
-    height: '100%',
-  },
+  avatarImg: { width: '100%', height: '100%' },
   avatarFallback: {
     flex: 1,
     backgroundColor: theme.colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  avatarText: {
-    color: theme.colors.white,
-    fontSize: theme.fonts.size.lg,
+  avatarText: { 
+    color: theme.colors.white, 
+    fontSize: theme.fonts.size.lg 
   },
-
   name: {
     color: theme.colors.white,
     fontSize: theme.fonts.size.xl,
     textAlign: 'center',
     marginBottom: theme.spacing.xs,
   },
-  age: {
-    color: theme.colors.white,
-    opacity: 0.9,
-    textAlign: 'center',
-    marginBottom: theme.spacing.md,
+  age: { 
+    color: theme.colors.white, 
+    opacity: 0.9, 
+    textAlign: 'center', 
+    marginBottom: 
+    theme.spacing.md 
   },
-  sectionTitle: {
-    color: theme.colors.white,
-    fontSize: theme.fonts.size.xl,
-    marginTop: theme.spacing.md,
-    marginBottom: theme.spacing.xs,
+  sectionTitle: { 
+    color: theme.colors.white, 
+    fontSize: theme.fonts.size.xl, 
+    marginTop: theme.spacing.md, 
+    marginBottom: theme.spacing.xs 
   },
-  obs: {
-    color: theme.colors.white,
+  obs: { 
+    color: theme.colors.white 
+  },
+  actions: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: theme.spacing.sm,
   },
 
-  actions: {
-    gap: theme.spacing.sm,
-  },
-  actionBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.colors.primary,
-    paddingVertical: theme.spacing.md,
-    paddingHorizontal: theme.spacing.md,
-    borderRadius: theme.radius.md,
-    gap: theme.spacing.sm,
-  },
-  actionLabel: {
-    color: theme.colors.white,
+  actionTile: {
+    flexBasis: '48%',
+    aspectRatio: 1,
+    marginBottom: theme.spacing.md,
   },
 });
 
