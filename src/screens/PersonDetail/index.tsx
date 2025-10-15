@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Image, ScrollView } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
-import type { DrawerNavigationProp } from '@react-navigation/drawer';            // +++
+import type { DrawerNavigationProp } from '@react-navigation/drawer';
 import type { PersonStackParamList } from '@/types/navigation';
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -18,8 +18,7 @@ type RouteP = RouteProp<PersonStackParamList, 'PersonDetail'>;
 const AVATAR_SIZE = 96;
 
 const PersonDetailScreen: React.FC = () => {
-  // tipa como Drawer para navegar entre as telas do Drawer
-  const navigation = useNavigation<DrawerNavigationProp<PersonStackParamList>>();  // **alterado**
+  const navigation = useNavigation<DrawerNavigationProp<PersonStackParamList>>();
   const { params } = useRoute<RouteP>();
   const { getPerson } = usePeople();
 
@@ -82,42 +81,42 @@ const PersonDetailScreen: React.FC = () => {
             iconName="medical-services"
             label="Medicamentos"
             colors={theme.gradients.buttons.medications}
-            onPress={() => navigation.navigate('Medications', { personId: params.personId })}   // +++
+            onPress={() => navigation.navigate('Medications', { personId: params.personId })}
           />
           <SquareAction
             style={styles.actionTile}
             iconName="monitor-heart"
             label="Pressão Arterial"
             colors={theme.gradients.buttons.bloodPressure}
-            onPress={() => navigation.navigate('BloodPressure', { personId: params.personId })} // +++
+            onPress={() => navigation.navigate('BloodPressure', { personId: params.personId })}
           />
           <SquareAction
             style={styles.actionTile}
             iconName="bloodtype"
             label="Glicemia"
             colors={theme.gradients.buttons.glycemia}
-            onPress={() => navigation.navigate('Glycemia', { personId: params.personId })}      // +++
+            onPress={() => navigation.navigate('Glycemia', { personId: params.personId })}   
           />
           <SquareAction
             style={styles.actionTile}
             iconName="view-timeline"
             label="Medidas (Peso / Altura)"
             colors={theme.gradients.buttons.measurements}
-            onPress={() => navigation.navigate('Measurements', { personId: params.personId })}  // +++
+            onPress={() => navigation.navigate('Measurements', { personId: params.personId })}
           />
           <SquareAction
             style={styles.actionTile}
             iconName="event-note"
             label="Consultas Médicas"
             colors={theme.gradients.buttons.appointments}
-            onPress={() => navigation.navigate('Appointments', { personId: params.personId })}  // +++
+            onPress={() => navigation.navigate('Appointments', { personId: params.personId })} 
           />
           <SquareAction
             style={styles.actionTile}
             iconName="insights"
             label="Gráficos"
             colors={theme.gradients.buttons.charts}
-            onPress={() => navigation.navigate('Charts', { personId: params.personId })}        // +++
+            onPress={() => navigation.navigate('Charts', { personId: params.personId })}     
           />
         </View>
       </ScrollView>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -17,7 +17,7 @@ const SquareAction: React.FC<SquareActionProps> = ({
   contentTestID = 'square-action-content',
 }) => {
   const Container = onPress ? TouchableOpacity : View;
-
+  const isSingleWord = useMemo(() => !/\s/.test(label), [label]);
   return (
     <Container
       style={[styles.container, style]}
@@ -46,9 +46,10 @@ const SquareAction: React.FC<SquareActionProps> = ({
           variant="body"
           weight="medium"
           style={styles.label}
-          numberOfLines={2}
+          numberOfLines={isSingleWord ? 1 : 2}
           adjustsFontSizeToFit
-          minimumFontScale={0.9}
+          minimumFontScale={0.85}
+          ellipsizeMode="clip"
         >
           {label}
         </CustomText>
