@@ -47,9 +47,8 @@ const SquareAction: React.FC<SquareActionProps> = ({
           weight="medium"
           style={styles.label}
           numberOfLines={isSingleWord ? 1 : 2}
-          adjustsFontSizeToFit
-          minimumFontScale={0.85}
-          ellipsizeMode="clip"
+          allowFontScaling={false}
+          ellipsizeMode="tail"
         >
           {label}
         </CustomText>
