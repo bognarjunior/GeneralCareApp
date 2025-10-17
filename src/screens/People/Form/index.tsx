@@ -113,7 +113,7 @@ const PersonFormScreen: React.FC = () => {
         confirmLabel: 'Ver detalhes',
         onConfirm: () => {
           closeModal();
-          navigation.navigate('PersonDetailStack', { personId: created.id });
+          navigation.replace('PersonDetailStack', { personId: created.id });
         },
       });
     } catch {
