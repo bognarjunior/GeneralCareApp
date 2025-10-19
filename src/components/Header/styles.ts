@@ -24,7 +24,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   right: {
-    width: theme.sizes.icon.xl,
+    minWidth: theme.sizes.icon.xl,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: theme.spacing.xs,
   },
 });
 

@@ -12,6 +12,7 @@ const Header: React.FC<HeaderProps> = ({
   showBack = false,
   onBackPress = () => {},
   titleVariant = 'subtitle',
+  rightContent,
   testID = 'app-header',
 }) => {
   return (
@@ -34,8 +35,9 @@ const Header: React.FC<HeaderProps> = ({
             {title}
           </CustomText>
         </View>
-
-        <View style={styles.right} />
+        <View style={styles.right}>
+          {rightContent}
+        </View>
       </View>
     </SafeAreaView>
   );

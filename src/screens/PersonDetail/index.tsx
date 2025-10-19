@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View, Image, ScrollView } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
-import type { DrawerNavigationProp } from '@react-navigation/drawer';
 import type { PersonStackParamList } from '@/types/navigation';
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -12,19 +11,48 @@ import theme from '@/theme';
 import { usePeople } from '@/hooks/usePeople';
 import { getAgeLabel, getInitials } from '@/utils/formatters/person';
 import SquareAction from '@/components/SquareAction';
+import IconButton from '@/components/IconButton';
+import Modal from '@/components/Modal';
 
 type RouteP = RouteProp<PersonStackParamList, 'PersonDetail'>;
 
 const AVATAR_SIZE = 96;
 
 const PersonDetailScreen: React.FC = () => {
-  const navigation = useNavigation<DrawerNavigationProp<PersonStackParamList>>();
+  // navegação sem casts "never"
+  const navigation = useNavigation<any>();
   const { params } = useRoute<RouteP>();
-  const { getPerson } = usePeople();
+  const { getPerson, removePerson } = usePeople();
 
   const person = getPerson(params.personId);
   const age = useMemo(() => (person?.birthDate ? getAgeLabel(person.birthDate) : null), [person]);
   const initials = useMemo(() => (person ? getInitials(person.fullName) : ''), [person]);
+
+  // estado do modal de exclusão
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  const handleEdit = () => {
+    if (!person) return;
+    navigation.navigate('PeopleRegister', { personId: person.id });
+  };
+
+  const handleAskDelete = () => {
+    if (!person) return;
+    setConfirmOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!person) return;
+    try {
+      setDeleting(true);
+      await removePerson(person.id);
+      navigation.navigate('PeopleList');
+    } finally {
+      setDeleting(false);
+      setConfirmOpen(false);
+    }
+  };
 
   return (
     <Container>
@@ -33,6 +61,26 @@ const PersonDetailScreen: React.FC = () => {
         titleVariant="title"
         showBack
         onBackPress={() => navigation.goBack()}
+        rightContent={
+          <>
+            <IconButton
+              iconName="edit"
+              onPress={handleEdit}
+              backgroundColor="transparent"
+              iconColor={theme.colors.text}
+              textColor={theme.colors.text}
+              iconSize={20}
+            />
+            <IconButton
+              iconName="delete"
+              onPress={handleAskDelete}
+              backgroundColor="transparent"
+              iconColor={theme.colors.danger}
+              textColor={theme.colors.danger}
+              iconSize={20}
+            />
+          </>
+        }
       />
 
       <ScrollView
@@ -95,7 +143,7 @@ const PersonDetailScreen: React.FC = () => {
             iconName="bloodtype"
             label="Glicemia"
             colors={theme.gradients.buttons.glycemia}
-            onPress={() => navigation.navigate('Glycemia', { personId: params.personId })}   
+            onPress={() => navigation.navigate('Glycemia', { personId: params.personId })}
           />
           <SquareAction
             style={styles.actionTile}
@@ -109,17 +157,29 @@ const PersonDetailScreen: React.FC = () => {
             iconName="event-note"
             label="Consultas Médicas"
             colors={theme.gradients.buttons.appointments}
-            onPress={() => navigation.navigate('Appointments', { personId: params.personId })} 
+            onPress={() => navigation.navigate('Appointments', { personId: params.personId })}
           />
           <SquareAction
             style={styles.actionTile}
             iconName="insights"
             label="Gráficos"
             colors={theme.gradients.buttons.charts}
-            onPress={() => navigation.navigate('Charts', { personId: params.personId })}     
+            onPress={() => navigation.navigate('Charts', { personId: params.personId })}
           />
         </View>
       </ScrollView>
+      <Modal
+        visible={confirmOpen}
+        title="Excluir pessoa"
+        message={`Deseja realmente excluir "${person?.fullName ?? ''}"? Esta ação não poderá ser desfeita.`}
+        confirmLabel="Excluir"
+        cancelLabel="Cancelar"
+        destructive
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmOpen(false)}
+        loading={deleting}
+        testID="person-delete-modal"
+      />
     </Container>
   );
 };
