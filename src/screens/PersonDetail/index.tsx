@@ -2,6 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { View, Image, ScrollView } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import type { PersonStackParamList } from '@/types/navigation';
+
+
 import Container from '@/components/Container';
 import Header from '@/components/Header';
 import Surface from '@/components/Surface';
@@ -13,13 +15,14 @@ import { getAgeLabel, getInitials } from '@/utils/formatters/person';
 import SquareAction from '@/components/SquareAction';
 import IconButton from '@/components/IconButton';
 import Modal from '@/components/Modal';
+import ActionSheet from '@/components/ActionSheet';
+import { PERSON_ACTIONS } from '@/constants/personActions';
 
 type RouteP = RouteProp<PersonStackParamList, 'PersonDetail'>;
 
 const AVATAR_SIZE = 96;
 
 const PersonDetailScreen: React.FC = () => {
-  // navegação sem casts "never"
   const navigation = useNavigation<any>();
   const { params } = useRoute<RouteP>();
   const { getPerson, removePerson } = usePeople();
@@ -28,7 +31,8 @@ const PersonDetailScreen: React.FC = () => {
   const age = useMemo(() => (person?.birthDate ? getAgeLabel(person.birthDate) : null), [person]);
   const initials = useMemo(() => (person ? getInitials(person.fullName) : ''), [person]);
 
-  // estado do modal de exclusão
+  const [sheetOpen, setSheetOpen] = useState(false);
+
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -62,24 +66,14 @@ const PersonDetailScreen: React.FC = () => {
         showBack
         onBackPress={() => navigation.goBack()}
         rightContent={
-          <>
-            <IconButton
-              iconName="edit"
-              onPress={handleEdit}
-              backgroundColor="transparent"
-              iconColor={theme.colors.text}
-              textColor={theme.colors.text}
-              iconSize={20}
-            />
-            <IconButton
-              iconName="delete"
-              onPress={handleAskDelete}
-              backgroundColor="transparent"
-              iconColor={theme.colors.danger}
-              textColor={theme.colors.danger}
-              iconSize={20}
-            />
-          </>
+          <IconButton
+            iconName="settings"
+            onPress={() => setSheetOpen(true)}
+            backgroundColor="transparent"
+            iconColor={theme.colors.text}
+            textColor={theme.colors.text}
+            iconSize={22}
+          />
         }
       />
 
@@ -124,50 +118,28 @@ const PersonDetailScreen: React.FC = () => {
         </View>
 
         <View style={styles.actions}>
-          <SquareAction
-            style={styles.actionTile}
-            iconName="medical-services"
-            label="Medicamentos"
-            colors={theme.gradients.buttons.medications}
-            onPress={() => navigation.navigate('Medications', { personId: params.personId })}
-          />
-          <SquareAction
-            style={styles.actionTile}
-            iconName="monitor-heart"
-            label="Pressão Arterial"
-            colors={theme.gradients.buttons.bloodPressure}
-            onPress={() => navigation.navigate('BloodPressure', { personId: params.personId })}
-          />
-          <SquareAction
-            style={styles.actionTile}
-            iconName="bloodtype"
-            label="Glicemia"
-            colors={theme.gradients.buttons.glycemia}
-            onPress={() => navigation.navigate('Glycemia', { personId: params.personId })}
-          />
-          <SquareAction
-            style={styles.actionTile}
-            iconName="view-timeline"
-            label="Medidas (Peso / Altura)"
-            colors={theme.gradients.buttons.measurements}
-            onPress={() => navigation.navigate('Measurements', { personId: params.personId })}
-          />
-          <SquareAction
-            style={styles.actionTile}
-            iconName="event-note"
-            label="Consultas Médicas"
-            colors={theme.gradients.buttons.appointments}
-            onPress={() => navigation.navigate('Appointments', { personId: params.personId })}
-          />
-          <SquareAction
-            style={styles.actionTile}
-            iconName="insights"
-            label="Gráficos"
-            colors={theme.gradients.buttons.charts}
-            onPress={() => navigation.navigate('Charts', { personId: params.personId })}
-          />
+          {PERSON_ACTIONS.map((a) => (
+            <SquareAction
+              key={a.key}
+              style={styles.actionTile}
+              iconName={a.iconName}
+              label={a.label}
+              colors={theme.gradients.buttons[a.gradientKey]}
+              onPress={() => navigation.navigate(a.route, { personId: params.personId })}
+            />
+          ))}
         </View>
       </ScrollView>
+
+      <ActionSheet
+        visible={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        actions={[
+          { label: 'Editar', iconName: 'edit', onPress: handleEdit },
+          { label: 'Excluir', iconName: 'delete', tint: 'danger', onPress: handleAskDelete },
+        ]}
+      />
+
       <Modal
         visible={confirmOpen}
         title="Excluir pessoa"

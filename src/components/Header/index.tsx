@@ -35,6 +35,7 @@ const Header: React.FC<HeaderProps> = ({
             {title}
           </CustomText>
         </View>
+
         <View style={styles.right}>
           {rightContent}
         </View>
