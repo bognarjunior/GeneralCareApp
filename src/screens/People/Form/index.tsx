@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Container from '@/components/Container';
@@ -12,7 +12,7 @@ import theme from '@/theme';
 import { usePeople } from '@/hooks/usePeople';
 import { personCreateSchema } from '@/utils/validators/person';
 import type { PersonCreateSchema } from '@/utils/validators/person';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '@/types/navigation';
 import FormAvatarField from '@/components/FormAvatarField';
@@ -22,11 +22,15 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
 type FormState = PersonCreateSchema & { avatarUri?: string };
+type PeopleRegisterRoute = RouteProp<RootStackParamList, 'PeopleRegister'>;
 
 const PersonFormScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<Nav>();
-  const { createPerson } = usePeople();
+  const route = useRoute<PeopleRegisterRoute>();
+  const { createPerson, updatePerson, getPerson } = usePeople();
+
+  const personId = route.params?.personId; // pode vir undefined (modo criação)
 
   const [form, setForm] = useState<FormState>({
     fullName: '',
@@ -57,6 +61,20 @@ const PersonFormScreen: React.FC = () => {
     setModalVisible(false);
     setModalState({});
   }, []);
+
+  // Preencher formulário no modo edição
+  useEffect(() => {
+    if (!personId) return;
+    const p = getPerson(personId);
+    if (!p) return;
+
+    setForm({
+      fullName: p.fullName ?? '',
+      birthDate: p.birthDate ?? undefined,
+      notes: p.notes ?? undefined,
+      avatarUri: p.avatarUri ?? undefined,
+    });
+  }, [personId, getPerson]);
 
   const canSave = useMemo(() => {
     if (form.fullName.trim().length < 2) return false;
@@ -102,20 +120,37 @@ const PersonFormScreen: React.FC = () => {
     }
 
     try {
-      const created = await createPerson({
-        ...parsed.data,
-        avatarUri: form.avatarUri || undefined,
-      });
+      if (personId) {
+        await updatePerson(personId, {
+          ...parsed.data,
+          avatarUri: form.avatarUri || undefined,
+        });
 
-      openModal({
-        title: 'Sucesso',
-        message: 'Pessoa cadastrada com sucesso!',
-        confirmLabel: 'Ver detalhes',
-        onConfirm: () => {
-          closeModal();
-          navigation.replace('PersonDetailStack', { personId: created.id });
-        },
-      });
+        openModal({
+          title: 'Atualizado',
+          message: 'Dados atualizados com sucesso!',
+          confirmLabel: 'Ver detalhes',
+          onConfirm: () => {
+            closeModal();
+            navigation.replace('PersonDetailStack', { personId: personId });
+          },
+        });
+      } else {
+        const created = await createPerson({
+          ...parsed.data,
+          avatarUri: form.avatarUri || undefined,
+        });
+
+        openModal({
+          title: 'Sucesso',
+          message: 'Pessoa cadastrada com sucesso!',
+          confirmLabel: 'Ver detalhes',
+          onConfirm: () => {
+            closeModal();
+            navigation.replace('PersonDetailStack', { personId: created.id });
+          },
+        });
+      }
     } catch {
       openModal({
         title: 'Erro',

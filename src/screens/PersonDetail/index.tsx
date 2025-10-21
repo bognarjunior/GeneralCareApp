@@ -51,6 +51,7 @@ const PersonDetailScreen: React.FC = () => {
     try {
       setDeleting(true);
       await removePerson(person.id);
+      navigation.popToTop();
       navigation.navigate('PeopleList');
     } finally {
       setDeleting(false);
