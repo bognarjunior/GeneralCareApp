@@ -1,43 +1,95 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { FlatList, View } from 'react-native';
+import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import Container from '@/components/Container';
+import Header from '@/components/Header';
+import IconButton from '@/components/IconButton';
+import CustomText from '@/components/CustomText';
+import Surface from '@/components/Surface';
+import theme from '@/theme';
+import { useMeasurements } from '@/hooks/useMeasurements';
 import type { PersonStackParamList } from '@/types/navigation';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
 
-const MeasurementsScreen = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<PersonStackParamList>>();
-  const route = useRoute();
-  const { personId } = route.params as { personId: string };
+type RP = RouteProp<PersonStackParamList, 'Measurements'>;
 
-  const {
-    container,
-    title,
-    navButton,
-    buttonText,
-  } = styles;
+const MeasurementsScreen: React.FC = () => {
+  const { params } = useRoute<RP>();
+  const navigation = useNavigation<any>();
+  const { items, loading, refresh, remove } = useMeasurements(params.personId);
 
   return (
-    <View style={container}>
-      <Text style={title}>Tela de Medidas (Peso / Altura)</Text>
+    <Container>
+      <Header
+        title="Medições"
+        titleVariant="title"
+        showBack
+        onBackPress={() => navigation.goBack()}
+        rightContent={
+          <IconButton
+            iconName="add"
+            onPress={() => navigation.navigate('MeasurementsForm', { personId: params.personId })}
+            backgroundColor="transparent"
+            iconColor={theme.colors.text}
+            textColor={theme.colors.text}
+          />
+        }
+      />
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate('PersonDetail', { personId })}
-        style={navButton}
-      >
-        <Icon name="arrow-back" size={20} color="#FFF" />
-        <Text style={buttonText}>Voltar para Detalhes</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => navigation.getParent()?.navigate('Home')}
-        style={navButton}
-      >
-        <Icon name="home" size={20} color="#FFF" />
-        <Text style={buttonText}>Ir para Home</Text>
-      </TouchableOpacity>
-    </View>
+      <FlatList
+        data={items}
+        keyExtractor={(m) => m.id}
+        refreshing={loading}
+        onRefresh={refresh}
+        contentContainerStyle={styles.listContent}
+        ListEmptyComponent={
+          <View style={styles.empty}>
+            <CustomText variant="subtitle" color="muted" style={styles.emptyText}>
+              Nenhuma medição cadastrada.
+            </CustomText>
+            <IconButton
+              iconName="add"
+              label="Adicionar medição"
+              onPress={() => navigation.navigate('MeasurementsForm', { personId: params.personId })}
+            />
+          </View>
+        }
+        renderItem={({ item }) => (
+          <Surface padding="md" style={styles.row}>
+            <View style={styles.rowLeft}>
+              <CustomText weight="bold">{new Date(item.dateISO).toLocaleDateString()}</CustomText>
+              <CustomText color="muted">{item.notes?.trim() || '—'}</CustomText>
+            </View>
+            <View style={styles.rowRight}>
+              <CustomText weight="bold">{item.weightKg} kg</CustomText>
+              <CustomText color="muted">{item.heightCm} cm • IMC {item.bmi}</CustomText>
+              <View style={styles.rowActions}>
+                <IconButton
+                  iconName="edit"
+                  backgroundColor="transparent"
+                  iconColor={theme.colors.text}
+                  textColor={theme.colors.text}
+                  onPress={() =>
+                    navigation.navigate('MeasurementsForm', {
+                      personId: params.personId,
+                      measurementId: item.id,
+                      preset: item,
+                    })
+                  }
+                />
+                <IconButton
+                  iconName="delete"
+                  backgroundColor="transparent"
+                  iconColor={theme.colors.danger}
+                  textColor={theme.colors.danger}
+                  onPress={() => remove(item.id)}
+                />
+              </View>
+            </View>
+          </Surface>
+        )}
+      />
+    </Container>
   );
 };
 
