@@ -9,8 +9,9 @@ export type ActionSheetAction = {
 
 export interface ActionSheetProps {
   visible: boolean;
-  actions: ActionSheetAction[];
   onClose: () => void;
   title?: string | ReactNode;
   testID?: string;
+  actions?: ActionSheetAction[];
+  children?: ReactNode;
 }

@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.overlay,
     justifyContent: 'flex-end',
   },
-  container:{
-    width: '100%'
+  container: {
+    width: '100%',
   },
   sheet: {
     backgroundColor: theme.colors.background,
@@ -32,6 +32,10 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.md,
   },
   titleText: {},
+  content: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: theme.spacing.lg,
+  },
   list: {
     paddingVertical: theme.spacing.xs,
   },

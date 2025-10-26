@@ -91,15 +91,17 @@ const PeopleListScreen: React.FC = () => {
 
   return (
     <View style={container}>
-      <View style={searchBox}>
-        <FormTextField
-          placeholder="Buscar pessoa..."
-          value={query}
-          onChangeText={setQuery}
-          returnKeyType="search"
-          containerStyle={styles.search}
-        />
-      </View>
+      {people.length > 0 && (
+        <View style={searchBox}>
+          <FormTextField
+            placeholder="Buscar pessoa..."
+            value={query}
+            onChangeText={setQuery}
+            returnKeyType="search"
+            containerStyle={styles.search}
+          />
+        </View>
+      )}
 
       {loading && people.length === 0 ? (
         <ScrollView contentContainerStyle={[content, listArea]} showsVerticalScrollIndicator={false}>
@@ -151,7 +153,6 @@ const PeopleListScreen: React.FC = () => {
                   avatarUri={p.avatarUri}
                   onPress={() => navigation.navigate('PersonDetailStack', { personId: p.id })}
                 />
-                
               </Swipeable>
             </View>
           ))}

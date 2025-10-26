@@ -8,4 +8,5 @@ export interface IconButtonProps {
   iconColor?: string;
   textColor?: string;
   iconSize?: number;
+  testID?: string;
 }

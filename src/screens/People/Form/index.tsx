@@ -30,7 +30,7 @@ const PersonFormScreen: React.FC = () => {
   const route = useRoute<PeopleRegisterRoute>();
   const { createPerson, updatePerson, getPerson } = usePeople();
 
-  const personId = route.params?.personId; // pode vir undefined (modo criação)
+  const personId = route.params?.personId;
 
   const [form, setForm] = useState<FormState>({
     fullName: '',
@@ -62,7 +62,6 @@ const PersonFormScreen: React.FC = () => {
     setModalState({});
   }, []);
 
-  // Preencher formulário no modo edição
   useEffect(() => {
     if (!personId) return;
     const p = getPerson(personId);

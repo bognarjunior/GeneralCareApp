@@ -7,7 +7,6 @@ import MedicationsScreen from '@/screens/Medications';
 import BloodPressureScreen from '@/screens/BloodPressure';
 import GlycemiaScreen from '@/screens/Glycemia';
 import MeasurementsScreen from '@/screens/Measurements';
-import MeasurementsFormScreen from '@/screens/Measurements/Form';
 import AppointmentsScreen from '@/screens/Appointments';
 import ChartsScreen from '@/screens/Charts';
 
@@ -51,11 +50,6 @@ const PersonalDrawerNavigator = () => {
       <Drawer.Screen
         name="Measurements"
         component={MeasurementsScreen}
-        initialParams={{ personId }}
-      />
-      <Drawer.Screen
-        name="MeasurementsForm"
-        component={MeasurementsFormScreen}
         initialParams={{ personId }}
       />
       <Drawer.Screen

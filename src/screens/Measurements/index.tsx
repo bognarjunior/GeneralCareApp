@@ -10,6 +10,8 @@ import theme from '@/theme';
 import { useMeasurements } from '@/hooks/useMeasurements';
 import type { PersonStackParamList } from '@/types/navigation';
 import styles from './styles';
+import MeasurementFormSheet from './FormSheet';
+import type { Measurement } from '@/repositories/measurementsRepository';
 
 type RP = RouteProp<PersonStackParamList, 'Measurements'>;
 
@@ -17,6 +19,23 @@ const MeasurementsScreen: React.FC = () => {
   const { params } = useRoute<RP>();
   const navigation = useNavigation<any>();
   const { items, loading, refresh, remove } = useMeasurements(params.personId);
+
+  const [sheetVisible, setSheetVisible] = React.useState(false);
+  const [editing, setEditing] = React.useState<Measurement | null>(null);
+
+  function openCreate() {
+    setEditing(null);
+    setSheetVisible(true);
+  }
+
+  function openEdit(item: Measurement) {
+    setEditing(item);
+    setSheetVisible(true);
+  }
+
+  function closeSheet() {
+    setSheetVisible(false);
+  }
 
   return (
     <Container>
@@ -28,10 +47,11 @@ const MeasurementsScreen: React.FC = () => {
         rightContent={
           <IconButton
             iconName="add"
-            onPress={() => navigation.navigate('MeasurementsForm', { personId: params.personId })}
+            onPress={openCreate}
             backgroundColor="transparent"
             iconColor={theme.colors.text}
             textColor={theme.colors.text}
+            testID="m-open-create"
           />
         }
       />
@@ -50,7 +70,8 @@ const MeasurementsScreen: React.FC = () => {
             <IconButton
               iconName="add"
               label="Adicionar medição"
-              onPress={() => navigation.navigate('MeasurementsForm', { personId: params.personId })}
+              onPress={openCreate}
+              testID="m-empty-add"
             />
           </View>
         }
@@ -69,13 +90,8 @@ const MeasurementsScreen: React.FC = () => {
                   backgroundColor="transparent"
                   iconColor={theme.colors.text}
                   textColor={theme.colors.text}
-                  onPress={() =>
-                    navigation.navigate('MeasurementsForm', {
-                      personId: params.personId,
-                      measurementId: item.id,
-                      preset: item,
-                    })
-                  }
+                  onPress={() => openEdit(item)}
+                  testID={`m-edit-${item.id}`}
                 />
                 <IconButton
                   iconName="delete"
@@ -83,11 +99,19 @@ const MeasurementsScreen: React.FC = () => {
                   iconColor={theme.colors.danger}
                   textColor={theme.colors.danger}
                   onPress={() => remove(item.id)}
+                  testID={`m-del-${item.id}`}
                 />
               </View>
             </View>
           </Surface>
         )}
+      />
+      <MeasurementFormSheet
+        visible={sheetVisible}
+        onClose={closeSheet}
+        personId={params.personId}
+        preset={editing}
+        onSaved={refresh}
       />
     </Container>
   );

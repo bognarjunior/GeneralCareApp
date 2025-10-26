@@ -1,4 +1,5 @@
 const sizes = {
+  header: 56,
   icon: {
     sm: 20,
     md: 28,

@@ -13,6 +13,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   iconColor = theme.colors.white,
   textColor = theme.colors.white,
   iconSize = theme.sizes.icon.md,
+  testID = 'icon-button',
 }) => {
   const containerStyle =
     backgroundColor === 'transparent' ? styles.containerFlat : styles.container;
@@ -21,7 +22,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     <TouchableOpacity
       style={[containerStyle, { backgroundColor }]}
       onPress={onPress}
-      testID="icon-button"
+      testID={testID}
     >
       <Icon
         name={iconName}
