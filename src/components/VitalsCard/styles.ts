@@ -29,7 +29,7 @@ export default StyleSheet.create({
     marginHorizontal: 2,
   },
 
-  weightText: {
+  valueText: {
     fontSize: theme.fonts.size.lg,
   },
 
@@ -46,6 +46,7 @@ export default StyleSheet.create({
   },
 
   metaWrap: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: theme.spacing.xs,

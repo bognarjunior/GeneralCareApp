@@ -47,8 +47,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     gap: theme.spacing.xs,
   },
-
-  /** Swipe actions */
   rightActions: {
     flexDirection: 'row',
     alignItems: 'stretch',
