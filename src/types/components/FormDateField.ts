@@ -1,17 +1,16 @@
-import { StyleProp, ViewStyle, TextStyle } from 'react-native';
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native';
 
 export interface FormDateFieldProps {
-  label?: string;
-  value?: string;
-  onChangeText: (v: string) => void;
+  label: string;
+  value: string;
+  onChangeText: (next: string) => void;
+  mode?: 'date' | 'datetime';
   error?: string;
   placeholder?: string;
   minDate?: Date;
   maxDate?: Date;
   disabled?: boolean;
-  testID?: string;
-
   style?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
-  inputStyle?: StyleProp<ViewStyle>;
+  testID?: string;
 }

@@ -101,6 +101,7 @@ const MeasurementFormSheet: React.FC<MeasurementFormSheetProps> = ({
           <View style={styles.group}>
             <FormDateField
               label="Data"
+              mode="datetime"
               value={dateISO}
               onChangeText={setDateISO}
               testID="m-date"

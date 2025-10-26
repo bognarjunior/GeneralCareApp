@@ -14,51 +14,11 @@ import type { Measurement } from '@/repositories/measurementsRepository';
 import MeasurementsFilters from './components/Filters';
 import MeasurementCard from '@/components/MeasurementCard';
 
+import { monthLabelFromYYYYMM } from '@/utils/date';
+import { groupByMonth, MonthSection } from '@/utils/list/sectionByMonth';
+import ListFooterProgress from '@/components/ListFooterProgress';
+
 type RP = RouteProp<PersonStackParamList, 'Measurements'>;
-
-type Section = {
-  title: string;
-  key: string;
-  data: Measurement[];
-};
-
-const monthNames = [
-  'janeiro','fevereiro','março','abril','maio','junho',
-  'julho','agosto','setembro','outubro','novembro','dezembro'
-];
-
-function monthLabelFromYYYYMM(yyyyMm: string): string {
-  const [y, m] = yyyyMm.split('-').map(Number);
-  const idx = Math.max(1, Math.min(12, m)) - 1;
-  return `${monthNames[idx].charAt(0).toUpperCase()}${monthNames[idx].slice(1)} ${y}`;
-}
-
-function groupByMonth(items: Measurement[]): Section[] {
-  const map = new Map<string, Measurement[]>();
-  for (const it of items) {
-    const d = new Date(it.dateISO);
-    const key = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
-    const arr = map.get(key) ?? [];
-    arr.push(it);
-    map.set(key, arr);
-  }
-  const months = Array.from(map.keys()).sort((a, b) => (a > b ? -1 : 1));
-
-  return months.map((key) => ({
-    title: monthLabelFromYYYYMM(key),
-    key,
-    data: (map.get(key) ?? []).sort((a, b) => (a.dateISO > b.dateISO ? -1 : 1)),
-  }));
-}
-
-const MeasurementsListFooter: React.FC<{ hasMore: boolean }> = ({ hasMore }) => {
-  if (!hasMore) return <View style={styles.footerSpacer} />;
-  return (
-    <View style={styles.footerLoading}>
-      <ActivityIndicator size="small" color={theme.colors.primary} />
-    </View>
-  );
-};
 
 const MeasurementsScreen: React.FC = () => {
   const { params } = useRoute<RP>();
@@ -90,7 +50,9 @@ const MeasurementsScreen: React.FC = () => {
     setSheetVisible(false);
   }
 
-  const sections = useMemo<Section[]>(() => groupByMonth(items), [items]);
+  const sections = useMemo<MonthSection<Measurement>[]>(() => {
+    return groupByMonth(items, (i) => i.dateISO, monthLabelFromYYYYMM);
+  }, [items]);
 
   const showEmpty = !loading && items.length === 0 && filter === 'all';
   const showNoMatch = !loading && items.length === 0 && filter !== 'all';
@@ -150,7 +112,7 @@ const MeasurementsScreen: React.FC = () => {
           }}
           refreshing={loading}
           onRefresh={refresh}
-          ListFooterComponent={<MeasurementsListFooter hasMore={hasMore} />}
+          ListFooterComponent={<ListFooterProgress hasMore={hasMore} />}
           renderSectionHeader={({ section }) => (
             <View style={styles.sectionHeader}>
               <CustomText weight="bold" variant="subtitle">{section.title}</CustomText>
