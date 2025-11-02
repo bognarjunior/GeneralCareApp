@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useState } from 'react';
 import { View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Button from '@/components/Button';
@@ -79,7 +80,6 @@ const MeasurementFormSheet: React.FC<MeasurementFormSheetProps> = ({
       setHeightCm(preset?.heightCm?.toString?.() ?? '');
       setNotes(preset?.notes ?? '');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible, preset?.id]);
 
   return (

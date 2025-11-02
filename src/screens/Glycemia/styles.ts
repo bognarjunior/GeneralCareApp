@@ -1,34 +1,43 @@
 import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
-const styles = StyleSheet.create({
-  container: {
+export default StyleSheet.create({
+  list: {
     flex: 1,
+  },
+  listContent: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: theme.spacing.xl,
+    paddingTop: 0,
+    gap: theme.spacing.sm,
+  },
+
+  sectionHeader: {
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
+    paddingBottom: theme.spacing.sm,
     backgroundColor: theme.colors.background,
+  },
+
+  loaderArea: {
+    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  empty: {
+    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: theme.spacing.lg,
     gap: theme.spacing.md,
-    padding: theme.spacing.lg,
   },
-  title: {
-    fontSize: theme.fonts.size.xlarge,
-    fontFamily: theme.fonts.family.bold,
-    color: theme.colors.text,
-    marginBottom: theme.spacing.xl,
+
+  emptyText: { 
+    textAlign: 'center' 
   },
-  navButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing.sm,
-    borderRadius: 6,
-    gap: theme.spacing.xs,
-  },
-  buttonText: {
-    color: '#FFF',
-    fontSize: theme.fonts.size.medium,
-    marginLeft: theme.spacing.xs,
+
+  itemSpacing: {
+    marginBottom: theme.spacing.sm,
   },
 });
-
-export default styles;
