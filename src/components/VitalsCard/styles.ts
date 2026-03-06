@@ -19,6 +19,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'baseline',
     gap: theme.spacing.xs,
+    flexShrink: 1,
+    flexWrap: 'nowrap',
+    marginRight: theme.spacing.sm,
   },
 
   time: {
@@ -40,7 +43,7 @@ export default StyleSheet.create({
   rowBottom: {
     marginTop: 4,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
     gap: theme.spacing.sm,
   },

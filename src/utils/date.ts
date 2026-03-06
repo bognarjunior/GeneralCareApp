@@ -62,7 +62,7 @@ export function dayKeyFromISO(iso: string): string {
 }
 
 export function formatHHmm(date: Date): string {
-  return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+  return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', hour12: false });
 }
 
 export function formatISOToDDMMYYYY_HHmm(iso?: string): string {

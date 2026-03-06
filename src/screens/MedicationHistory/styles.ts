@@ -2,15 +2,11 @@ import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
 export default StyleSheet.create({
-  list: {
-    flex: 1,
-  },
+  list: { flex: 1 },
   listContent: {
     paddingHorizontal: theme.spacing.lg,
     paddingBottom: theme.spacing.xl,
     paddingTop: theme.spacing.md,
-    gap: theme.spacing.sm,
-    flexGrow: 0,
   },
   sectionHeader: {
     paddingHorizontal: theme.spacing.lg,
@@ -18,6 +14,19 @@ export default StyleSheet.create({
     paddingBottom: theme.spacing.sm,
     backgroundColor: theme.colors.background,
   },
+  itemSpacing: { marginBottom: theme.spacing.sm },
+  intakeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.surface,
+    borderRadius: theme.radius.md,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderWidth: theme.border.width.hairline,
+    borderColor: theme.colors.border,
+  },
+  intakeInfo: { flex: 1, gap: theme.spacing.xs },
+  intakeActions: { flexDirection: 'row', alignItems: 'center' },
   loaderArea: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -30,8 +39,5 @@ export default StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     paddingVertical: theme.spacing.xl,
     gap: theme.spacing.md,
-  },
-  itemSpacing: {
-    marginBottom: theme.spacing.sm,
   },
 });

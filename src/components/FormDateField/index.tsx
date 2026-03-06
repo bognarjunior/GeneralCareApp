@@ -26,7 +26,7 @@ const FormDateField: React.FC<FormDateFieldProps> = ({
   const [stage, setStage] = useState<'date' | 'time'>('date');
   const selectedDate = useMemo<Date>(() => {
     if (mode === 'date') {
-      return parseDDMMYYYY(value) ?? new Date(1990, 0, 1);
+      return parseDDMMYYYY(value) ?? new Date();
     }
     const d = value ? new Date(value) : new Date();
     return isNaN(d.getTime()) ? new Date() : d;

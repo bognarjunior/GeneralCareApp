@@ -2,12 +2,13 @@ import { StyleSheet } from 'react-native';
 import theme from '@/theme';
 
 export default StyleSheet.create({
-  scroll: { flex: 1 },
-  content: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.md,
-  },
   group: { gap: theme.spacing.md },
+  medicationInfo: {
+    gap: theme.spacing.xs,
+    paddingBottom: theme.spacing.xs,
+    borderBottomWidth: theme.border.width.hairline,
+    borderBottomColor: theme.colors.border,
+  },
   label: {
     marginBottom: theme.spacing.xs,
     marginLeft: theme.spacing.xs,

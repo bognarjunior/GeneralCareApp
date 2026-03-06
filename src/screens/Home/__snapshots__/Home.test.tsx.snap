@@ -4,10 +4,10 @@ exports[`HomeScreen bater snapshot 1`] = `
 <RNCSafeAreaView
   edges={
     {
-      "bottom": "additive",
+      "bottom": "off",
       "left": "additive",
       "right": "additive",
-      "top": "additive",
+      "top": "off",
     }
   }
   style={
@@ -19,6 +19,7 @@ exports[`HomeScreen bater snapshot 1`] = `
       {
         "backgroundColor": "#FFFFFF",
         "flex": 1,
+        "paddingTop": 24,
       },
     ]
   }

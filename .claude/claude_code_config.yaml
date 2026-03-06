@@ -1,0 +1,245 @@
+# Claude Code Configuration for GeneralCareApp
+# Health Management App for Elderly Care - React Native + TypeScript
+
+project_info:
+  name: 'GeneralCareApp'
+  description: 'Health management application for elderly care with glycemia, blood pressure, measurements, and medication tracking'
+  tech_stack:
+    - 'React Native'
+    - 'TypeScript'
+    - 'React Navigation'
+    - 'AsyncStorage'
+    - 'Jest + React Native Testing Library'
+
+architecture:
+  pattern: 'Clean Architecture with Repository Pattern'
+  layers:
+    - name: 'Screen (UI Layer)'
+      description: 'Presentation layer - dumb components that only render UI and handle user interactions'
+      location: 'src/screens/'
+      responsibilities:
+        - 'Render UI based on hook state'
+        - 'Handle user interactions (button clicks, form inputs)'
+        - 'Navigation calls'
+        - 'NO business logic'
+        - 'NO direct data access'
+
+    - name: 'Hook (Business Logic Layer)'
+      description: 'Custom hooks that contain all business logic and state management'
+      location: 'src/hooks/'
+      responsibilities:
+        - 'State management (useState, useRef, etc)'
+        - 'Side effects (useEffect)'
+        - 'Business logic and data transformation'
+        - 'Call repository methods'
+        - 'Return data and methods to screens'
+        - 'Filter, pagination, sorting logic'
+
+    - name: 'Repository (Data Access Layer)'
+      description: 'Data access abstraction layer'
+      location: 'src/repositories/'
+      responsibilities:
+        - 'CRUD operations (list, create, update, remove)'
+        - 'Call storage methods'
+        - 'Data transformation (DTO to Model)'
+        - 'NO business logic'
+        - 'Pure data access functions'
+
+    - name: 'Storage (Persistence Layer)'
+      description: 'AsyncStorage abstraction'
+      location: 'src/storage/'
+      responsibilities:
+        - 'Direct AsyncStorage calls'
+        - 'Serialization/deserialization'
+        - 'Storage key management'
+
+  component_structure:
+    description: 'Each component/screen must follow this structure'
+    rules:
+      - 'Separate folder for each component'
+      - 'index.tsx for component logic'
+      - 'styles.ts for StyleSheet (NEVER inline styles)'
+      - 'Component-specific types in src/types/components/'
+      - 'Use theme variables (colors, spacing, fonts)'
+      - 'NO hardcoded values'
+
+coding_standards:
+  typescript:
+    - 'Strict mode enabled'
+    - 'Always define types explicitly'
+    - 'Use interfaces for object shapes'
+    - 'Use type for unions/intersections'
+    - 'Export types alongside implementation'
+    - "Never use 'any' - use 'unknown' if needed"
+
+  react_native:
+    - 'Functional components only (NO class components)'
+    - 'Use hooks for state and effects'
+    - 'Memoize expensive computations with useMemo'
+    - 'Memoize callbacks with useCallback'
+    - 'Use React.memo for component optimization when needed'
+
+  styling:
+    - 'ALWAYS use StyleSheet.create'
+    - 'NEVER use inline styles'
+    - "Import theme from '@/theme'"
+    - 'Use theme.colors, theme.spacing, theme.fonts'
+    - 'File name: styles.ts'
+    - 'Export default StyleSheet.create({})'
+
+  imports:
+    order:
+      - 'React and React Native core'
+      - 'Third-party libraries'
+      - 'Components (@/components)'
+      - 'Hooks (@/hooks)'
+      - 'Repositories (@/repositories)'
+      - 'Utils (@/utils)'
+      - 'Types (@/types)'
+      - 'Theme and styles'
+      - 'Relative imports (./)'
+
+  naming_conventions:
+    components: 'PascalCase (e.g., GlycemiaCard, IconButton)'
+    hooks: "camelCase with 'use' prefix (e.g., useGlycemia, usePeople)"
+    functions: 'camelCase (e.g., formatDate, groupByMonth)'
+    constants: 'UPPER_SNAKE_CASE (e.g., STORAGE_KEYS, DEFAULT_PAGE_SIZE)'
+    types: 'PascalCase (e.g., Glycemia, PersonStackParamList)'
+    files: 'camelCase for utilities, PascalCase for components'
+
+testing:
+  framework: 'Jest + React Native Testing Library'
+  location: 'Co-located with implementation files (NOT in separate __tests__ folder)'
+  requirements:
+    - 'Minimum 80% code coverage'
+    - 'All hooks MUST have unit tests'
+    - 'All utility functions MUST have tests'
+    - 'Components should have integration tests'
+    - 'Test files: *.test.ts or *.test.tsx'
+    - 'ALWAYS co-located with the file being tested'
+
+  examples:
+    hooks: 'src/hooks/useGlycemia.ts → src/hooks/useGlycemia.test.ts'
+    components: 'src/components/GlycemiaCard/index.tsx → src/components/GlycemiaCard/GlycemiaCard.test.tsx'
+    utils: 'src/utils/date.ts → src/utils/date.test.ts'
+    repositories: 'src/repositories/glycemiaRepository.ts → src/repositories/glycemiaRepository.test.ts'
+
+  note: '__tests__/ folder in root is ONLY for global tests (app.json, config files, etc)'
+
+  test_structure:
+    - 'describe() blocks for grouping'
+    - 'Clear test names describing behavior'
+    - 'AAA pattern: Arrange, Act, Assert'
+    - 'Mock external dependencies'
+    - 'Test edge cases and error scenarios'
+
+file_organization:
+  screens:
+    structure: |
+      screens/
+        Glycemia/
+          index.tsx          # Main screen component
+          styles.ts          # Styles
+          components/        # Screen-specific components
+            FormSheet/
+              index.tsx
+              styles.ts
+
+  components:
+    structure: |
+      components/
+        GlycemiaCard/
+          index.tsx                  # Component
+          styles.ts                  # Styles
+          GlycemiaCard.test.tsx      # Tests (co-located, optional but recommended)
+
+  hooks:
+    structure: |
+      hooks/
+        useGlycemia.ts       # Hook implementation
+        useGlycemia.test.ts  # Tests (co-located, REQUIRED)
+
+  repositories:
+    structure: |
+      repositories/
+        glycemiaRepository.ts       # Repository implementation
+        glycemiaRepository.test.ts  # Tests (co-located, REQUIRED)
+
+  utils:
+    structure: |
+      utils/
+        date.ts              # Utility functions
+        date.test.ts         # Tests (co-located, REQUIRED)
+
+  note: 'ALL tests are co-located with their implementation. __tests__/ folder is ONLY for global tests (app.json, config, etc)'
+
+common_patterns:
+  filter_and_pagination:
+    description: 'Standard pattern for lists with filters and pagination'
+    filters: 'all | today | 7d | 30d | 90d'
+    implementation: 'Use useFilteredPaginatedData generic hook'
+
+  date_handling:
+    description: 'All dates stored in ISO format (dateISO)'
+    format: 'YYYY-MM-DDTHH:mm:ss.sssZ'
+    display: 'Use formatters from utils/formatters'
+
+  navigation:
+    description: 'React Navigation v6'
+    typing: 'Always type navigation and route params'
+    stacks:
+      - 'RootStackParamList for main navigation'
+      - 'PersonStackParamList for person-specific screens'
+
+response_format:
+  code_delivery:
+    - 'ALWAYS provide COMPLETE file contents'
+    - "NEVER use comments like '// ... rest of the code'"
+    - 'NEVER use placeholders or omissions'
+    - 'Include all imports, types, and implementations'
+    - 'If file is too long, split logically and indicate continuation'
+
+  explanations:
+    - 'Explain architectural decisions'
+    - 'Point out pattern adherence'
+    - 'Highlight potential issues'
+    - 'Suggest improvements when relevant'
+
+specific_rules:
+  glycemia_tracking:
+    fields: 'id, personId, dateISO, value, type (jejum/pós-prandial/etc)'
+    repository: 'glycemiaRepository'
+    hook: 'useGlycemia'
+
+  measurements_tracking:
+    fields: 'id, personId, dateISO, weight, height, bmi'
+    repository: 'measurementsRepository'
+    hook: 'useMeasurements'
+    note: 'BMI is calculated on create, not sent by user'
+
+  people_management:
+    repository: 'peopleRepository'
+    hook: 'usePeople'
+    storage_key: 'people'
+
+anti_patterns:
+  avoid:
+    - 'Business logic in screens'
+    - 'Direct AsyncStorage calls outside storage layer'
+    - 'Inline styles'
+    - 'Hardcoded colors, spacing, or fonts'
+    - 'Magic numbers without constants'
+    - 'Mixing concerns across layers'
+    - 'useState in repositories'
+    - 'useEffect in repositories'
+    - 'Navigation logic in hooks'
+
+quality_gates:
+  before_commit:
+    - 'All tests passing'
+    - 'No TypeScript errors'
+    - 'No ESLint errors'
+    - 'Code coverage >= 80%'
+    - 'All imports using path aliases (@/)'
+    - 'All styles in separate files'
+    - 'All types explicitly defined'

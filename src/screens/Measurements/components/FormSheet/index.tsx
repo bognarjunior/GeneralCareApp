@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useState } from 'react';
-import { View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View } from 'react-native';
+import FormSheet from '@/components/FormSheet';
 import Button from '@/components/Button';
 import CustomText from '@/components/CustomText';
 import FormDateField from '@/components/FormDateField';
 import FormTextField from '@/components/FormTextField';
-import ActionSheet from '@/components/ActionSheet';
 import theme from '@/theme';
 import styles from './styles';
 import { useMeasurements } from '@/hooks/useMeasurements';
@@ -83,82 +83,71 @@ const MeasurementFormSheet: React.FC<MeasurementFormSheetProps> = ({
   }, [visible, preset?.id]);
 
   return (
-    <ActionSheet
+    <FormSheet
       visible={visible}
       onClose={onClose}
       title={editing ? 'Editar medição' : 'Nova medição'}
       testID="measurements-sheet"
     >
-      <KeyboardAvoidingView
-        behavior={Platform.select({ ios: 'padding', android: undefined })}
-        keyboardVerticalOffset={theme.sizes.header ?? 0}
-      >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.content}
-        >
-          <View style={styles.group}>
-            <FormDateField
-              label="Data"
-              mode="datetime"
-              value={dateISO}
-              onChangeText={setDateISO}
-              testID="m-date"
-            />
+      <View style={styles.group}>
+        <FormDateField
+          label="Data"
+          mode="datetime"
+          value={dateISO}
+          onChangeText={setDateISO}
+          testID="m-date"
+        />
 
-            <FormTextField
-              label="Peso (kg)"
-              placeholder="Ex.: 72.4"
-              keyboardType="decimal-pad"
-              value={weightKg}
-              onChangeText={setWeightKg}
-              testID="m-weight"
-            />
+        <FormTextField
+          label="Peso (kg)"
+          placeholder="Ex.: 72.4"
+          keyboardType="decimal-pad"
+          value={weightKg}
+          onChangeText={setWeightKg}
+          testID="m-weight"
+        />
 
-            <FormTextField
-              label="Altura (cm)"
-              placeholder="Ex.: 175"
-              keyboardType="decimal-pad"
-              value={heightCm}
-              onChangeText={setHeightCm}
-              testID="m-height"
-            />
+        <FormTextField
+          label="Altura (cm)"
+          placeholder="Ex.: 175"
+          keyboardType="decimal-pad"
+          value={heightCm}
+          onChangeText={setHeightCm}
+          testID="m-height"
+        />
 
-            <CustomText color="muted">IMC estimado: {bmi}</CustomText>
+        <CustomText color="muted">IMC estimado: {bmi}</CustomText>
 
-            <FormTextField
-              label="Observações"
-              placeholder="Opcional"
-              multiline
-              numberOfLines={3}
-              value={notes}
-              onChangeText={setNotes}
-              textAlignVertical="top"
-              testID="m-notes"
-            />
+        <FormTextField
+          label="Observações"
+          placeholder="Opcional"
+          multiline
+          numberOfLines={3}
+          value={notes}
+          onChangeText={setNotes}
+          textAlignVertical="top"
+          testID="m-notes"
+        />
 
-            <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-              <Button
-                variant="primary"
-                label={editing ? 'Salvar alterações' : 'Salvar'}
-                onPress={handleSave}
-                disabled={saving}
-                gradient
-                testID="m-save"
-              />
-              <Button
-                variant="ghost"
-                label="Cancelar"
-                onPress={onClose}
-                disabled={saving}
-                testID="m-cancel"
-              />
-            </Button.Group>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </ActionSheet>
+        <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
+          <Button
+            variant="primary"
+            label={editing ? 'Salvar alterações' : 'Salvar'}
+            onPress={handleSave}
+            disabled={saving}
+            gradient
+            testID="m-save"
+          />
+          <Button
+            variant="ghost"
+            label="Cancelar"
+            onPress={onClose}
+            disabled={saving}
+            testID="m-cancel"
+          />
+        </Button.Group>
+      </View>
+    </FormSheet>
   );
 };
 

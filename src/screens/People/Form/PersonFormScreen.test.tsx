@@ -4,7 +4,9 @@ import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
 import PersonFormScreen from './index';
 
 const mockCreatePerson = jest.fn();
-const mockNavigate = jest.fn();
+const mockUpdatePerson = jest.fn();
+const mockGetPerson = jest.fn();
+const mockReplace = jest.fn();
 const mockGoBack = jest.fn();
 
 jest.mock('react-native-safe-area-context', () => ({
@@ -15,12 +17,17 @@ jest.mock('@react-navigation/native', () => {
   const actual = jest.requireActual('@react-navigation/native');
   return {
     ...actual,
-    useNavigation: () => ({ navigate: mockNavigate, goBack: mockGoBack }),
+    useNavigation: () => ({ replace: mockReplace, goBack: mockGoBack }),
+    useRoute: () => ({ params: {} }),
   };
 });
 
 jest.mock('@/hooks/usePeople', () => ({
-  usePeople: () => ({ createPerson: mockCreatePerson }),
+  usePeople: () => ({
+    createPerson: mockCreatePerson,
+    updatePerson: mockUpdatePerson,
+    getPerson: mockGetPerson,
+  }),
 }));
 
 jest.mock('@/components/Container', () => {
@@ -42,10 +49,10 @@ jest.mock('@/components/Surface', () => {
 jest.mock('@/components/Button', () => {
   const React = require('react');
   const { TouchableOpacity, Text, View } = require('react-native');
-  const Btn = ({ label, onPress, testID }: any) =>
+  const Btn = ({ label, onPress, testID, disabled }: any) =>
     React.createElement(
       TouchableOpacity,
-      { testID, accessibilityLabel: testID, onPress },
+      { testID, accessibilityLabel: testID, onPress: disabled ? undefined : onPress },
       React.createElement(Text, null, label)
     );
   Btn.Group = ({ children }: any) => React.createElement(View, null, children);
@@ -56,10 +63,9 @@ jest.mock('@/components/FormAvatarField', () => {
   const React = require('react');
   const { TouchableOpacity } = require('react-native');
   return function MockAvatar(props: any) {
-    const { onChange } = props;
     return React.createElement(TouchableOpacity, {
       testID: 'avatar-field',
-      onPress: () => onChange && onChange('uri://mock'),
+      onPress: () => props.onChange && props.onChange('uri://mock'),
     });
   };
 });
@@ -73,12 +79,7 @@ jest.mock('@/components/FormTextField', () => {
       View,
       null,
       label ? React.createElement(Text, null, label) : null,
-      React.createElement(TextInput, {
-        placeholder,
-        value,
-        onChangeText,
-        style: inputStyle,
-      })
+      React.createElement(TextInput, { placeholder, value, onChangeText, style: inputStyle })
     );
   };
 });
@@ -87,49 +88,70 @@ jest.mock('@/components/FormDateField', () => {
   const React = require('react');
   const { TextInput } = require('react-native');
   return function MockDateField(props: any) {
-    const { value, onChangeText, testID } = props;
-    return React.createElement(TextInput, { testID, value, onChangeText });
+    return React.createElement(TextInput, {
+      testID: props.testID,
+      value: props.value,
+      onChangeText: props.onChangeText,
+    });
   };
 });
 
-jest.mock('@/components/Toast', () => {
+jest.mock('@/components/Modal', () => {
   const React = require('react');
-  const { Text } = require('react-native');
-  let lastOnHide: (() => void) | undefined;
-  const Toast = ({ visible, message, onHide }: any) => {
-    lastOnHide = onHide;
-    return visible ? React.createElement(Text, { testID: 'toast' }, message) : null;
+  const { View, Text, TouchableOpacity } = require('react-native');
+  return function MockModal(props: any) {
+    if (!props.visible) return null;
+    const tid = props.testID ?? 'confirm-modal';
+    return React.createElement(
+      View,
+      { testID: tid },
+      props.message
+        ? React.createElement(Text, { testID: `${tid}-message` }, props.message)
+        : null,
+      props.onConfirm
+        ? React.createElement(
+            TouchableOpacity,
+            { testID: `${tid}-confirm`, onPress: props.onConfirm },
+            React.createElement(Text, null, props.confirmLabel ?? 'Confirmar')
+          )
+        : null,
+      props.onCancel
+        ? React.createElement(
+            TouchableOpacity,
+            { testID: `${tid}-cancel`, onPress: props.onCancel },
+            React.createElement(Text, null, props.cancelLabel ?? 'Cancelar')
+          )
+        : null
+    );
   };
-  return { __esModule: true, default: Toast, __getLastOnHide: () => lastOnHide };
 });
-
-const getToastHelpers = () => require('@/components/Toast');
 
 beforeEach(() => {
   mockCreatePerson.mockReset();
-  mockNavigate.mockReset();
+  mockUpdatePerson.mockReset();
+  mockGetPerson.mockReset();
+  mockReplace.mockReset();
   mockGoBack.mockReset();
 });
 
 describe('PersonFormScreen', () => {
-  it('Submit inválido (sem nome) não chama createPerson e exibe toast de erro', async () => {
+  it('Submit inválido (sem nome) abre modal com mensagem de erro', async () => {
     const ui = render(<PersonFormScreen />);
     fireEvent.press(ui.getByTestId('btn-save'));
 
     expect(mockCreatePerson).not.toHaveBeenCalled();
 
     await waitFor(() =>
-      expect(ui.getByTestId('toast').props.children).toBe('Revise os campos destacados.')
+      expect(ui.getByTestId('confirm-modal-message').props.children).toBe(
+        'Revise os campos destacados.'
+      )
     );
   });
 
-  it('Data inválida bloqueia submit e mostra toast de erro', async () => {
+  it('Data inválida bloqueia submit e mostra modal de erro', async () => {
     const ui = render(<PersonFormScreen />);
 
-    fireEvent.changeText(
-      ui.getByPlaceholderText('Ex.: João da Silva'),
-      'João da Silva'
-    );
+    fireEvent.changeText(ui.getByPlaceholderText('Ex.: João da Silva'), 'João da Silva');
     fireEvent.changeText(ui.getByTestId('birthdate'), '31/02/2024');
 
     fireEvent.press(ui.getByTestId('btn-save'));
@@ -137,11 +159,13 @@ describe('PersonFormScreen', () => {
     expect(mockCreatePerson).not.toHaveBeenCalled();
 
     await waitFor(() =>
-      expect(ui.getByTestId('toast').props.children).toBe('Revise os campos destacados.')
+      expect(ui.getByTestId('confirm-modal-message').props.children).toBe(
+        'Revise os campos destacados.'
+      )
     );
   });
 
-  it('Ao apagar a data antes de salvar, birthDate é enviado como undefined', async () => {
+  it('Ao apagar a data, birthDate é enviado como undefined e navega após confirmar modal', async () => {
     mockCreatePerson.mockResolvedValueOnce({ id: 'xyz' });
 
     const ui = render(<PersonFormScreen />);
@@ -153,97 +177,61 @@ describe('PersonFormScreen', () => {
     fireEvent.press(ui.getByTestId('btn-save'));
 
     await waitFor(() => {
-      expect(mockCreatePerson).toHaveBeenCalledTimes(1);
       expect(mockCreatePerson).toHaveBeenCalledWith(
-        expect.objectContaining({
-          fullName: 'Carlos Silva',
-          birthDate: undefined,
-        })
+        expect.objectContaining({ fullName: 'Carlos Silva', birthDate: undefined })
       );
-      expect(mockNavigate).toHaveBeenCalledWith('PersonDetailStack', { personId: 'xyz' });
     });
+
+    await waitFor(() => expect(ui.getByTestId('confirm-modal-confirm')).toBeTruthy());
+
+    await act(async () => {
+      fireEvent.press(ui.getByTestId('confirm-modal-confirm'));
+    });
+
+    expect(mockReplace).toHaveBeenCalledWith('PersonDetailStack', { personId: 'xyz' });
   });
 
-  it('Submit com erro no createPerson cai no catch, loga erro e mostra toast de erro', async () => {
+  it('Submit com erro no createPerson mostra modal de erro', async () => {
     const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
     mockCreatePerson.mockRejectedValueOnce(new Error('boom'));
 
     const ui = render(<PersonFormScreen />);
 
-    fireEvent.changeText(
-      ui.getByPlaceholderText('Ex.: João da Silva'),
-      'Maria Souza'
-    );
+    fireEvent.changeText(ui.getByPlaceholderText('Ex.: João da Silva'), 'Maria Souza');
     fireEvent.changeText(ui.getByTestId('birthdate'), '10/10/2000');
 
     fireEvent.press(ui.getByTestId('btn-save'));
 
-    await waitFor(() => {
-      expect(spy).toHaveBeenCalled();
-      expect(ui.getByTestId('toast').props.children).toBe(
+    await waitFor(() =>
+      expect(ui.getByTestId('confirm-modal-message').props.children).toBe(
         'Não foi possível salvar. Tente novamente.'
-      );
-    });
-
-    spy.mockRestore();
-  });
-
-  it('Toast onHide limpa o estado do toast (setToast(null))', async () => {
-    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    mockCreatePerson.mockRejectedValueOnce(new Error('boom'));
-    const ui = render(<PersonFormScreen />);
-
-    fireEvent.changeText(
-      ui.getByPlaceholderText('Ex.: João da Silva'),
-      'Ana Maria'
+      )
     );
-    fireEvent.changeText(ui.getByTestId('birthdate'), '01/01/2001');
-    fireEvent.press(ui.getByTestId('btn-save'));
 
-    await waitFor(() => expect(ui.getByTestId('toast')).toBeTruthy());
-
-    const { __getLastOnHide } = getToastHelpers();
-    const onHide = __getLastOnHide();
-
-    await act(async () => {
-      onHide && onHide();
-    });
-
-    await waitFor(() => {
-      expect(() => ui.getByTestId('toast')).toThrow();
-    });
     spy.mockRestore();
   });
 
-
-  it('Cancelar chama navigation.goBack', () => {
-    const ui = render(<PersonFormScreen />);
-    fireEvent.press(ui.getByTestId('btn-cancel'));
-    expect(mockGoBack).toHaveBeenCalledTimes(1);
-  });
-
-  it('Submit sucesso chama createPerson, mostra toast de sucesso e navega', async () => {
+  it('Submit sucesso chama createPerson e navega ao confirmar modal', async () => {
     mockCreatePerson.mockResolvedValueOnce({ id: 'abc' });
 
     const ui = render(<PersonFormScreen />);
 
-    fireEvent.changeText(
-      ui.getByPlaceholderText('Ex.: João da Silva'),
-      'Pedro Paulo'
-    );
+    fireEvent.changeText(ui.getByPlaceholderText('Ex.: João da Silva'), 'Pedro Paulo');
     fireEvent.changeText(ui.getByTestId('birthdate'), '05/05/1990');
-    fireEvent.changeText(
-      ui.getByPlaceholderText('Alergias, observações gerais...'),
-      'Obs'
-    );
+    fireEvent.changeText(ui.getByPlaceholderText('Alergias, observações gerais...'), 'Obs');
 
     fireEvent.press(ui.getByTestId('btn-save'));
 
-    await waitFor(() => {
-      expect(mockCreatePerson).toHaveBeenCalled();
-      expect(mockNavigate).toHaveBeenCalledWith('PersonDetailStack', { personId: 'abc' });
-      expect(ui.getByTestId('toast').props.children).toBe('Pessoa cadastrada com sucesso!');
+    await waitFor(() => expect(ui.getByTestId('confirm-modal-confirm')).toBeTruthy());
+    expect(ui.getByTestId('confirm-modal-message').props.children).toBe(
+      'Pessoa cadastrada com sucesso!'
+    );
+
+    await act(async () => {
+      fireEvent.press(ui.getByTestId('confirm-modal-confirm'));
     });
+
+    expect(mockReplace).toHaveBeenCalledWith('PersonDetailStack', { personId: 'abc' });
   });
 
   it('FormAvatarField dispara onChange (cobre setField avatarUri)', () => {

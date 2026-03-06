@@ -1,0 +1,111 @@
+# Claude Code Ignore File for GeneralCareApp
+
+# Files and directories that Claude should ignore
+
+# Dependencies
+
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+
+android/app/build/
+android/.gradle/
+ios/build/
+ios/Pods/
+_.xcworkspace
+_.xcuserstate
+.bundle/
+
+# Testing
+
+coverage/
+\*.coverage
+.nyc_output/
+
+# Environment
+
+.env
+.env.local
+.env.\*.local
+
+# IDE
+
+.vscode/
+.idea/
+_.swp
+_.swo
+\*~
+.DS_Store
+
+# Logs
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log\*
+\*.log
+
+# Cache
+
+.eslintcache
+.cache/
+\*.tsbuildinfo
+
+# Metro
+
+.metro-health-check\*
+
+# Temporary
+
+tmp/
+temp/
+\*.tmp
+
+# Generated files
+
+_.d.ts.map
+_.js.map
+
+# Package manager
+
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# React Native specific
+
+.expo/
+.expo-shared/
+
+# Assets that don't need review
+
+_.png
+_.jpg
+_.jpeg
+_.gif
+_.svg
+_.ico
+_.webp
+_.mp4
+_.mov
+_.avi
+_.ttf
+_.otf
+_.woff
+_.woff2
+\*.eot
+
+# Documentation that may be outdated
+
+CHANGELOG.md
+docs/old/
+
+# Vendor/third-party code
+
+vendor/
+
+# Large generated reports
+
+metro-report.html
+bundle-report.html

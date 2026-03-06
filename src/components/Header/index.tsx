@@ -31,7 +31,13 @@ const Header: React.FC<HeaderProps> = ({
         </View>
 
         <View style={styles.center}>
-          <CustomText variant={titleVariant} weight="bold" color="text">
+          <CustomText
+            variant={titleVariant}
+            weight="bold"
+            color="text"
+            numberOfLines={1}
+            adjustsFontSizeToFit
+          >
             {title}
           </CustomText>
         </View>

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '@/screens/Home';
 import PeopleListScreen from '@/screens/People/List';
 import PeopleFormScreen from '@/screens/People/Form';
+import MedicationHistoryScreen from '@/screens/MedicationHistory';
 import PersonalDrawerNavigator from './PersonalDrawerNavigator';
 import Header from '@/components/Header';
 
@@ -45,6 +46,8 @@ const AppNavigator = () => (
     />
 
     <Stack.Screen name="PersonDetailStack" component={PersonalDrawerNavigator} />
+
+    <Stack.Screen name="MedicationHistory" component={MedicationHistoryScreen} />
   </Stack.Navigator>
 );
 

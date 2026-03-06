@@ -5,4 +5,9 @@ export type RootStackParamList = {
     personId: string;
   };
   PeopleRegister?: { personId?: string };
+  MedicationHistory: {
+    personId: string;
+    medicationId: string;
+    medicationName: string;
+  };
 };

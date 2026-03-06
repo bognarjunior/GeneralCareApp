@@ -82,10 +82,11 @@ describe('FormDateField (Android)', () => {
     expect(pickers.length).toBe(1);
     const picker = pickers[0] as any;
 
+    const now = new Date();
     expect(picker.props.value instanceof Date).toBe(true);
-    expect(picker.props.value.getFullYear()).toBe(1990);
-    expect(picker.props.value.getMonth()).toBe(0);
-    expect(picker.props.value.getDate()).toBe(1);
+    expect(picker.props.value.getFullYear()).toBe(now.getFullYear());
+    expect(picker.props.value.getMonth()).toBe(now.getMonth());
+    expect(picker.props.value.getDate()).toBe(now.getDate());
 
     expect(picker.props.minimumDate).toEqual(min);
     expect(picker.props.maximumDate).toEqual(max);
@@ -164,7 +165,7 @@ describe('FormDateField (iOS)', () => {
     expect(onChangeText).toHaveBeenCalledWith('02/01/2024');
 
     await act(async () => {
-      fireEvent.press(getByText('Cancelar'));
+      fireEvent.press(getByText('Fechar'));
     });
     pickers = UNSAFE_queryAllByType(DateTimePicker as any);
     expect(pickers.length).toBe(0);
@@ -175,7 +176,7 @@ describe('FormDateField (iOS)', () => {
     expect(UNSAFE_queryAllByType(DateTimePicker as any).length).toBe(1);
 
     await act(async () => {
-      fireEvent.press(getByText('OK'));
+      fireEvent.press(getByText('Fechar'));
     });
     expect(UNSAFE_queryAllByType(DateTimePicker as any).length).toBe(0);
   });

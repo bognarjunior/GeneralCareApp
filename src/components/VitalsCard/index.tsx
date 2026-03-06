@@ -43,7 +43,7 @@ const VitalsCard: React.FC<VitalsCardProps> = ({
       <View style={styles.rowBottom}>
         <View style={styles.metaWrap}>
           {typeof metaLeft === 'string' ? (
-            <CustomText color="muted">{metaLeft}</CustomText>
+            <CustomText color="muted" numberOfLines={1} ellipsizeMode="tail">{metaLeft}</CustomText>
           ) : (
             metaLeft
           )}
