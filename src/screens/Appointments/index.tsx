@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { SectionList, View, ActivityIndicator, SectionListData } from 'react-native';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -13,17 +13,15 @@ import theme from '@/theme';
 import styles from './styles';
 
 import { useAppointments } from '@/hooks/useAppointments';
-import type { PersonStackParamList } from '@/types/navigation';
+import type { AppointmentsRouteProps } from '@/types/navigation';
 import type { Appointment } from '@/repositories/appointmentsRepository';
 
 import { groupByMonth, MonthSection } from '@/utils/list/sectionByMonth';
 import { monthLabelFromYYYYMM } from '@/utils/date';
 import AppointmentFormSheet from './components/AppointmentFormSheet';
 
-type RP = RouteProp<PersonStackParamList, 'Appointments'>;
-
 const AppointmentsScreen: React.FC = () => {
-  const { params } = useRoute<RP>();
+  const { params } = useRoute<AppointmentsRouteProps>();
   const navigation = useNavigation<any>();
 
   const {

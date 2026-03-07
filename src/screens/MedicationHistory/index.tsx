@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { SectionList, View, ActivityIndicator, SectionListData } from 'react-native';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -12,17 +12,15 @@ import theme from '@/theme';
 import styles from './styles';
 
 import { useMedicationIntakes } from '@/hooks/useMedicationIntakes';
-import type { RootStackParamList } from '@/types/navigation';
+import type { MedicationHistoryRouteProps } from '@/types/navigation';
 import type { MedicationIntake } from '@/repositories/medicationIntakesRepository';
 
 import { groupByMonth, MonthSection } from '@/utils/list/sectionByMonth';
 import { monthLabelFromYYYYMM, formatISOToDDMMYYYY_HHmm } from '@/utils/date';
 import IntakeFormSheet from '@/screens/Medications/components/IntakeFormSheet';
 
-type RP = RouteProp<RootStackParamList, 'MedicationHistory'>;
-
 const MedicationHistoryScreen: React.FC = () => {
-  const { params } = useRoute<RP>();
+  const { params } = useRoute<MedicationHistoryRouteProps>();
   const navigation = useNavigation<any>();
 
   const {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, View, Pressable, ActivityIndicator } from 'react-native';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Container from '@/components/Container';
@@ -11,9 +11,7 @@ import styles from './styles';
 
 import { usePersonDashboard } from '@/hooks/usePersonDashboard';
 import { classify } from '@/repositories/bloodPressureRepository';
-import type { PersonStackParamList } from '@/types/navigation';
-
-type RP = RouteProp<PersonStackParamList, 'Dashboard'>;
+import type { DashboardRouteProps } from '@/types/navigation';
 
 function formatSummaryDate(dateISO: string): string {
   const d = new Date(dateISO);
@@ -65,7 +63,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
 );
 
 const DashboardScreen: React.FC = () => {
-  const { params } = useRoute<RP>();
+  const { params } = useRoute<DashboardRouteProps>();
   const navigation = useNavigation<any>();
 
   const {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList, View, ActivityIndicator } from 'react-native';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import Container from '@/components/Container';
@@ -13,17 +13,15 @@ import styles from './styles';
 
 import { useMedications } from '@/hooks/useMedications';
 import { useMedicationIntakes } from '@/hooks/useMedicationIntakes';
-import type { PersonStackParamList, RootStackParamList } from '@/types/navigation';
+import type { MedicationsRouteProps, RootStackParamList } from '@/types/navigation';
 import type { Medication } from '@/repositories/medicationsRepository';
 import type { MedicationIntake } from '@/repositories/medicationIntakesRepository';
 
 import MedicationFormSheet from './components/MedicationFormSheet';
 import IntakeFormSheet from './components/IntakeFormSheet';
 
-type RP = RouteProp<PersonStackParamList, 'Medications'>;
-
 const MedicationsScreen: React.FC = () => {
-  const { params } = useRoute<RP>();
+  const { params } = useRoute<MedicationsRouteProps>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const {

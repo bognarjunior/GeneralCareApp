@@ -1,3 +1,5 @@
+import type { RouteProp } from '@react-navigation/native';
+
 export type RootStackParamList = {
   Home: undefined;
   PeopleList: undefined;
@@ -11,3 +13,5 @@ export type RootStackParamList = {
     medicationName: string;
   };
 };
+
+export type MedicationHistoryRouteProps = RouteProp<RootStackParamList, 'MedicationHistory'>;

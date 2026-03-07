@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { SectionList, View, ActivityIndicator, SectionListData } from 'react-native';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -13,17 +13,15 @@ import theme from '@/theme';
 import styles from './styles';
 
 import { useBloodPressure } from '@/hooks/useBloodPressure';
-import type { PersonStackParamList } from '@/types/navigation';
+import type { BloodPressureRouteProps } from '@/types/navigation';
 import type { BloodPressure } from '@/repositories/bloodPressureRepository';
 
 import { groupByMonth, MonthSection } from '@/utils/list/sectionByMonth';
 import { monthLabelFromYYYYMM } from '@/utils/date';
 import BloodPressureFormSheet from './components/FormSheet';
 
-type RP = RouteProp<PersonStackParamList, 'BloodPressure'>;
-
 const BloodPressureScreen: React.FC = () => {
-  const { params } = useRoute<RP>();
+  const { params } = useRoute<BloodPressureRouteProps>();
   const navigation = useNavigation<any>();
 
   const {

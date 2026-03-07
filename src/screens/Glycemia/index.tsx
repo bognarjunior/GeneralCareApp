@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { SectionList, View, ActivityIndicator, SectionListData } from 'react-native';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -13,17 +13,15 @@ import theme from '@/theme';
 import styles from './styles';
 
 import { useGlycemia } from '@/hooks/useGlycemia';
-import type { PersonStackParamList } from '@/types/navigation';
+import type { GlycemiaRouteProps } from '@/types/navigation';
 import type { Glycemia } from '@/repositories/glycemiaRepository';
 
 import { groupByMonth, MonthSection } from '@/utils/list/sectionByMonth';
 import { monthLabelFromYYYYMM } from '@/utils/date';
 import GlycemiaFormSheet from './components/FormSheet';
 
-type RP = RouteProp<PersonStackParamList, 'Glycemia'>;
-
 const GlycemiaScreen: React.FC = () => {
-  const { params } = useRoute<RP>();
+  const { params } = useRoute<GlycemiaRouteProps>();
   const navigation = useNavigation<any>();
 
   const {

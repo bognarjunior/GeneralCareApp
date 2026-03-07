@@ -6,7 +6,7 @@ import {
   Pressable,
   useWindowDimensions,
 } from 'react-native';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { LineChart } from 'react-native-gifted-charts';
 
 import Container from '@/components/Container';
@@ -16,12 +16,10 @@ import theme from '@/theme';
 import styles from './styles';
 
 import { useChartsData, type ChartPeriod } from '@/hooks/useChartsData';
-import type { PersonStackParamList } from '@/types/navigation';
+import type { ChartsRouteProps } from '@/types/navigation';
 import type { Glycemia } from '@/repositories/glycemiaRepository';
 import type { BloodPressure } from '@/repositories/bloodPressureRepository';
 import type { Measurement } from '@/repositories/measurementsRepository';
-
-type RP = RouteProp<PersonStackParamList, 'Charts'>;
 
 const PERIODS: { label: string; value: ChartPeriod }[] = [
   { label: '1 mês', value: '30d' },
@@ -86,7 +84,7 @@ const REF_DASHED = {
 };
 
 const ChartsScreen: React.FC = () => {
-  const { params } = useRoute<RP>();
+  const { params } = useRoute<ChartsRouteProps>();
   const navigation = useNavigation<any>();
   const { width } = useWindowDimensions();
 
