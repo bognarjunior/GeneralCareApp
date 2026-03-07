@@ -7,4 +7,5 @@ export type PersonStackParamList = {
   MeasurementsForm: { personId: string; preset?: any };
   Appointments: { personId: string };
   Charts: { personId: string };
+  Dashboard: { personId: string };
 };

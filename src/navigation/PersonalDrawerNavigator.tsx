@@ -9,6 +9,7 @@ import GlycemiaScreen from '@/screens/Glycemia';
 import MeasurementsScreen from '@/screens/Measurements';
 import AppointmentsScreen from '@/screens/Appointments';
 import ChartsScreen from '@/screens/Charts';
+import DashboardScreen from '@/screens/Dashboard';
 
 import type { PersonStackParamList, RootStackParamList } from '@/types/navigation';
 
@@ -60,6 +61,11 @@ const PersonalDrawerNavigator = () => {
       <Drawer.Screen
         name="Charts"
         component={ChartsScreen}
+        initialParams={{ personId }}
+      />
+      <Drawer.Screen
+        name="Dashboard"
+        component={DashboardScreen}
         initialParams={{ personId }}
       />
     </Drawer.Navigator>

@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { View, Image, ScrollView } from 'react-native';
+import { View, Image, ScrollView, Pressable } from 'react-native';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import type { PersonStackParamList } from '@/types/navigation';
-
 
 import Container from '@/components/Container';
 import Header from '@/components/Header';
@@ -32,7 +31,6 @@ const PersonDetailScreen: React.FC = () => {
   const initials = useMemo(() => (person ? getInitials(person.fullName) : ''), [person]);
 
   const [sheetOpen, setSheetOpen] = useState(false);
-
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -94,28 +92,30 @@ const PersonDetailScreen: React.FC = () => {
             )}
           </View>
 
-          <Surface
-            gradient
-            padding="lg"
-            gradientColors={theme.gradients.surface.emphasis}
-            style={styles.card}
-          >
-            <View style={{ paddingTop: AVATAR_SIZE / 2 + theme.spacing.sm }}>
-              <CustomText weight="bold" style={styles.name}>
-                {person?.fullName ?? '—'}
-              </CustomText>
+          <Pressable onPress={() => navigation.navigate('Dashboard', { personId: params.personId })}>
+            <Surface
+              gradient
+              padding="lg"
+              gradientColors={theme.gradients.surface.emphasis}
+              style={styles.card}
+            >
+              <View style={{ paddingTop: AVATAR_SIZE / 2 + theme.spacing.sm }}>
+                <CustomText weight="bold" style={styles.name}>
+                  {person?.fullName ?? '—'}
+                </CustomText>
 
-              {!!age && <CustomText style={styles.age}>{age}</CustomText>}
+                {!!age && <CustomText style={styles.age}>{age}</CustomText>}
 
-              <CustomText weight="bold" style={styles.sectionTitle}>
-                Observações
-              </CustomText>
+                <CustomText weight="bold" style={styles.sectionTitle}>
+                  Observações
+                </CustomText>
 
-              <CustomText style={styles.obs}>
-                {person?.notes?.trim() ? person.notes : 'Não foi informado nenhuma.'}
-              </CustomText>
-            </View>
-          </Surface>
+                <CustomText style={styles.obs}>
+                  {person?.notes?.trim() ? person.notes : 'Não foi informado nenhuma.'}
+                </CustomText>
+              </View>
+            </Surface>
+          </Pressable>
         </View>
 
         <View style={styles.actions}>

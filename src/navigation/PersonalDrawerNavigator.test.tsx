@@ -37,6 +37,11 @@ jest.mock('@/screens/Charts', () => {
   const { Text } = require('react-native');
   return () => React.createElement(Text, { testID: 'ChartsScreen' }, 'Charts');
 });
+jest.mock('@/screens/Dashboard', () => {
+  const React = require('react');
+  const { Text } = require('react-native');
+  return () => React.createElement(Text, { testID: 'DashboardScreen' }, 'Dashboard');
+});
 
 jest.mock('@react-navigation/native', () => {
   const actual = jest.requireActual('@react-navigation/native');
@@ -80,6 +85,7 @@ describe('PersonalDrawerNavigator', () => {
       'Measurements',
       'Appointments',
       'Charts',
+      'Dashboard',
     ] as const;
 
     names.forEach((name) => {
