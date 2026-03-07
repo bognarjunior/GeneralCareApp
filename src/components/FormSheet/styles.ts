@@ -36,6 +36,14 @@ export default StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: theme.spacing.lg,
-    paddingBottom: theme.spacing.lg,
+    paddingBottom: theme.spacing.md,
+  },
+  footer: {
+    borderTopWidth: theme.border.width.hairline,
+    borderTopColor: theme.colors.border,
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
+    paddingBottom: theme.spacing.md,
+    gap: theme.spacing.md,
   },
 });

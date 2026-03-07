@@ -12,6 +12,7 @@ export interface FormSheetProps {
   title?: string;
   testID?: string;
   children: React.ReactNode;
+  footer?: React.ReactNode;
 }
 
 const FormSheet: React.FC<FormSheetProps> = ({
@@ -20,6 +21,7 @@ const FormSheet: React.FC<FormSheetProps> = ({
   title,
   testID = 'form-sheet',
   children,
+  footer,
 }) => {
   const insets = useSafeAreaInsets();
   const maxSheetHeight = Dimensions.get('window').height - insets.top - theme.spacing.lg;
@@ -60,6 +62,12 @@ const FormSheet: React.FC<FormSheetProps> = ({
           >
             {children}
           </ScrollView>
+
+          {footer ? (
+            <View style={styles.footer}>
+              {footer}
+            </View>
+          ) : null}
         </SafeAreaView>
       </View>
     </Modal>

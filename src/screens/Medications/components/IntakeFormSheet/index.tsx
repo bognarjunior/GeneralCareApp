@@ -73,12 +73,33 @@ const IntakeFormSheet: React.FC<IntakeFormSheetProps> = ({
 
   const hasTimes = (medication?.scheduleTimes?.length ?? 0) > 0;
 
+  const footer = (
+    <Button.Group direction="column">
+      <Button
+        variant="primary"
+        label={editing ? 'Salvar alterações' : 'Registrar'}
+        onPress={handleSave}
+        disabled={saving || !medication}
+        gradient
+        testID="intake-save"
+      />
+      <Button
+        variant="ghost"
+        label="Cancelar"
+        onPress={onClose}
+        disabled={saving}
+        testID="intake-cancel"
+      />
+    </Button.Group>
+  );
+
   return (
     <FormSheet
       visible={visible}
       onClose={onClose}
       title={editing ? 'Editar tomada' : 'Registrar tomada'}
       testID="intake-sheet"
+      footer={footer}
     >
       <View style={styles.group}>
         {medication && (
@@ -130,23 +151,6 @@ const IntakeFormSheet: React.FC<IntakeFormSheetProps> = ({
           testID="intake-notes"
         />
 
-        <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-          <Button
-            variant="primary"
-            label={editing ? 'Salvar alterações' : 'Registrar'}
-            onPress={handleSave}
-            disabled={saving || !medication}
-            gradient
-            testID="intake-save"
-          />
-          <Button
-            variant="ghost"
-            label="Cancelar"
-            onPress={onClose}
-            disabled={saving}
-            testID="intake-cancel"
-          />
-        </Button.Group>
       </View>
     </FormSheet>
   );

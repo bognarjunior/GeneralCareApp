@@ -56,5 +56,4 @@ export default StyleSheet.create({
     color: theme.colors.primary,
     fontFamily: theme.fonts.family.semibold,
   },
-  buttons: { marginTop: theme.spacing.lg },
 });

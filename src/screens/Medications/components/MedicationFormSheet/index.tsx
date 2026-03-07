@@ -106,12 +106,33 @@ const MedicationFormSheet: React.FC<MedicationFormSheetProps> = ({
     }
   }
 
+  const footer = (
+    <Button.Group direction="column">
+      <Button
+        variant="primary"
+        label={editing ? 'Salvar alterações' : 'Salvar'}
+        onPress={handleSave}
+        disabled={saving || !isNameValid}
+        gradient
+        testID="med-save"
+      />
+      <Button
+        variant="ghost"
+        label="Cancelar"
+        onPress={onClose}
+        disabled={saving}
+        testID="med-cancel"
+      />
+    </Button.Group>
+  );
+
   return (
     <FormSheet
       visible={visible}
       onClose={onClose}
       title={editing ? 'Editar medicamento' : 'Novo medicamento'}
       testID="med-sheet"
+      footer={footer}
     >
       <View style={styles.group}>
         <FormTextField
@@ -196,23 +217,6 @@ const MedicationFormSheet: React.FC<MedicationFormSheetProps> = ({
           testID="med-notes"
         />
 
-        <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-          <Button
-            variant="primary"
-            label={editing ? 'Salvar alterações' : 'Salvar'}
-            onPress={handleSave}
-            disabled={saving || !isNameValid}
-            gradient
-            testID="med-save"
-          />
-          <Button
-            variant="ghost"
-            label="Cancelar"
-            onPress={onClose}
-            disabled={saving}
-            testID="med-cancel"
-          />
-        </Button.Group>
       </View>
     </FormSheet>
   );

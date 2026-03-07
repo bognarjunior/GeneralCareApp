@@ -20,5 +20,4 @@ export default StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: theme.colors.surface,
   },
-  buttons: { marginTop: theme.spacing.lg },
 });

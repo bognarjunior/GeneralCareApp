@@ -6,7 +6,6 @@ import FormDateField from '@/components/FormDateField';
 import FormTextField from '@/components/FormTextField';
 import Button from '@/components/Button';
 import CustomText from '@/components/CustomText';
-import theme from '@/theme';
 import styles from './styles';
 import { useBloodPressure } from '@/hooks/useBloodPressure';
 import type { BloodPressure, BloodPressureArm } from '@/repositories/bloodPressureRepository';
@@ -84,12 +83,33 @@ const BloodPressureFormSheet: React.FC<BloodPressureFormSheetProps> = ({
     }
   }
 
+  const footer = (
+    <Button.Group direction="column">
+      <Button
+        variant="primary"
+        label={editing ? 'Salvar alterações' : 'Salvar'}
+        onPress={handleSave}
+        disabled={saving || isInvalid}
+        gradient
+        testID="bp-save"
+      />
+      <Button
+        variant="ghost"
+        label="Cancelar"
+        onPress={onClose}
+        disabled={saving}
+        testID="bp-cancel"
+      />
+    </Button.Group>
+  );
+
   return (
     <FormSheet
       visible={visible}
       onClose={onClose}
       title={editing ? 'Editar pressão arterial' : 'Nova pressão arterial'}
       testID="bp-sheet"
+      footer={footer}
     >
       <View style={styles.group}>
         <FormDateField
@@ -165,23 +185,6 @@ const BloodPressureFormSheet: React.FC<BloodPressureFormSheetProps> = ({
           testID="bp-notes"
         />
 
-        <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-          <Button
-            variant="primary"
-            label={editing ? 'Salvar alterações' : 'Salvar'}
-            onPress={handleSave}
-            disabled={saving || isInvalid}
-            gradient
-            testID="bp-save"
-          />
-          <Button
-            variant="ghost"
-            label="Cancelar"
-            onPress={onClose}
-            disabled={saving}
-            testID="bp-cancel"
-          />
-        </Button.Group>
       </View>
     </FormSheet>
   );

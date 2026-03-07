@@ -6,7 +6,6 @@ import Button from '@/components/Button';
 import CustomText from '@/components/CustomText';
 import FormDateField from '@/components/FormDateField';
 import FormTextField from '@/components/FormTextField';
-import theme from '@/theme';
 import styles from './styles';
 import { useMeasurements } from '@/hooks/useMeasurements';
 import type { Measurement } from '@/repositories/measurementsRepository';
@@ -82,12 +81,33 @@ const MeasurementFormSheet: React.FC<MeasurementFormSheetProps> = ({
     }
   }, [visible, preset?.id]);
 
+  const footer = (
+    <Button.Group direction="column">
+      <Button
+        variant="primary"
+        label={editing ? 'Salvar alterações' : 'Salvar'}
+        onPress={handleSave}
+        disabled={saving}
+        gradient
+        testID="m-save"
+      />
+      <Button
+        variant="ghost"
+        label="Cancelar"
+        onPress={onClose}
+        disabled={saving}
+        testID="m-cancel"
+      />
+    </Button.Group>
+  );
+
   return (
     <FormSheet
       visible={visible}
       onClose={onClose}
       title={editing ? 'Editar medição' : 'Nova medição'}
       testID="measurements-sheet"
+      footer={footer}
     >
       <View style={styles.group}>
         <FormDateField
@@ -129,23 +149,6 @@ const MeasurementFormSheet: React.FC<MeasurementFormSheetProps> = ({
           testID="m-notes"
         />
 
-        <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-          <Button
-            variant="primary"
-            label={editing ? 'Salvar alterações' : 'Salvar'}
-            onPress={handleSave}
-            disabled={saving}
-            gradient
-            testID="m-save"
-          />
-          <Button
-            variant="ghost"
-            label="Cancelar"
-            onPress={onClose}
-            disabled={saving}
-            testID="m-cancel"
-          />
-        </Button.Group>
       </View>
     </FormSheet>
   );

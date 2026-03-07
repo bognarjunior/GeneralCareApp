@@ -6,7 +6,6 @@ import FormDateField from '@/components/FormDateField';
 import FormTextField from '@/components/FormTextField';
 import Button from '@/components/Button';
 import CustomText from '@/components/CustomText';
-import theme from '@/theme';
 import styles from './styles';
 import type { GlycemiaFormSheetProps } from './types';
 import { useGlycemia } from '@/hooks/useGlycemia';
@@ -59,11 +58,30 @@ const GlycemiaFormSheet: React.FC<GlycemiaFormSheetProps> = ({
     }
   }
 
+  const footer = (
+    <Button.Group direction="column">
+      <Button
+        variant="primary"
+        label={editing ? 'Salvar alterações' : 'Salvar'}
+        onPress={handleSave}
+        disabled={saving || isInvalid}
+        gradient
+      />
+      <Button
+        variant="ghost"
+        label="Cancelar"
+        onPress={onClose}
+        disabled={saving}
+      />
+    </Button.Group>
+  );
+
   return (
     <FormSheet
       visible={visible}
       onClose={onClose}
       title={editing ? 'Editar Glicemia' : 'Nova Glicemia'}
+      footer={footer}
     >
       <View style={styles.group}>
         <FormDateField
@@ -114,15 +132,6 @@ const GlycemiaFormSheet: React.FC<GlycemiaFormSheetProps> = ({
           testID="gly-notes"
         />
 
-        <Button.Group direction="column" gap={theme.spacing.md} style={styles.buttons}>
-          <Button
-            variant="primary"
-            label={editing ? 'Salvar alterações' : 'Salvar'}
-            onPress={handleSave}
-            disabled={saving || isInvalid}
-            gradient
-          />
-        </Button.Group>
       </View>
     </FormSheet>
   );
