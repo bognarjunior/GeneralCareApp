@@ -1,4 +1,5 @@
 import type { RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type PersonStackParamList = {
   PersonDetail: { personId: string };
@@ -20,3 +21,4 @@ export type MeasurementsRouteProps = RouteProp<PersonStackParamList, 'Measuremen
 export type AppointmentsRouteProps = RouteProp<PersonStackParamList, 'Appointments'>;
 export type ChartsRouteProps = RouteProp<PersonStackParamList, 'Charts'>;
 export type DashboardRouteProps = RouteProp<PersonStackParamList, 'Dashboard'>;
+export type PersonStackNavigationProps = NativeStackNavigationProp<PersonStackParamList>;
