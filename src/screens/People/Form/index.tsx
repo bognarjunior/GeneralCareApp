@@ -11,28 +11,23 @@ import styles from './styles';
 import theme from '@/theme';
 import { usePeople } from '@/hooks/usePeople';
 import { personCreateSchema } from '@/utils/validators/person';
-import type { PersonCreateSchema } from '@/utils/validators/person';
-import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '@/types/navigation';
+import type { PersonCreateSchema, PersonFormState } from '@/utils/validators/person';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import type { RootStackNavigationProps, PeopleRegisterRouteProps } from '@/types/navigation';
 import FormAvatarField from '@/components/FormAvatarField';
 import { isValidDDMMYYYY } from '@/utils/date';
 import Modal from '@/components/Modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-type Nav = NativeStackNavigationProp<RootStackParamList>;
-type FormState = PersonCreateSchema & { avatarUri?: string };
-type PeopleRegisterRoute = RouteProp<RootStackParamList, 'PeopleRegister'>;
-
 const PersonFormScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
-  const navigation = useNavigation<Nav>();
-  const route = useRoute<PeopleRegisterRoute>();
+  const navigation = useNavigation<RootStackNavigationProps>();
+  const route = useRoute<PeopleRegisterRouteProps>();
   const { createPerson, updatePerson, getPerson } = usePeople();
 
   const personId = route.params?.personId;
 
-  const [form, setForm] = useState<FormState>({
+  const [form, setForm] = useState<PersonFormState>({
     fullName: '',
     birthDate: undefined,
     notes: undefined,
@@ -83,7 +78,7 @@ const PersonFormScreen: React.FC = () => {
 
   function setField<K extends keyof PersonCreateSchema>(key: K, value: PersonCreateSchema[K]): void;
   function setField(key: 'avatarUri', value: string | undefined): void;
-  function setField(key: any, value: any) {
+  function setField(key: keyof PersonFormState, value: PersonFormState[keyof PersonFormState]) {
     setForm((prev) => ({ ...prev, [key]: value }));
     if (key === 'fullName' || key === 'birthDate' || key === 'notes') {
       setErrors((prev) => ({ ...prev, [key]: undefined }));

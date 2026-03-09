@@ -1,8 +1,7 @@
 import React, { useMemo, useRef, useState, createRef } from 'react';
 import { View, ScrollView, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '@/types/navigation';
+import type { PeopleListNavigationProps } from '@/types/navigation';
 import styles from './styles';
 
 import usePeople from '@/hooks/usePeople';
@@ -18,10 +17,8 @@ import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
 import type { SwipeableMethods } from 'react-native-gesture-handler/ReanimatedSwipeable';
 import IconButton from '@/components/IconButton';
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'PeopleList'>;
-
 const PeopleListScreen: React.FC = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<PeopleListNavigationProps>();
   const { container, content, searchBox, listArea, spacer } = styles;
 
   const { people, loading, refresh, removePerson } = usePeople();

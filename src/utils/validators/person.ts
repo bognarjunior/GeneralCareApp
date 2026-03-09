@@ -16,3 +16,4 @@ export const personCreateSchema = z.object({
 });
 
 export type PersonCreateSchema = z.infer<typeof personCreateSchema>;
+export type PersonFormState = PersonCreateSchema & { avatarUri?: string };
